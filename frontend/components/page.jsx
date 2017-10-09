@@ -1,5 +1,5 @@
 import React from 'react';
-import LinkList from 'link-list';
+import LinkList from './link-list';
 
 const Page = ({ links }) => (
   <div className="page-container">

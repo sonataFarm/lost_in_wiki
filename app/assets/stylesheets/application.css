@@ -13,3 +13,10 @@
  *= require_tree .
  *= require_self
  */
+
+.link-list-item-container {
+  width: 200px;
+  height: 30px;
+  border: 1px solid black;
+  position: fixed;
+}

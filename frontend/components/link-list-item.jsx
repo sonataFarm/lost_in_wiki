@@ -7,15 +7,15 @@ const LINK_LIST_ITEM_HEIGHT = 30; // height in px
 
 const LinkListItem = ({ link }) => {
 
-  styles = {
-    top: _.random(0, window.innerWidth),
-    left: _.random(0, window.innerHeight),
+  const styles = {
+    top: _.random(0, window.innerHeight - LINK_LIST_ITEM_HEIGHT),
+    left: _.random(0, window.innerWidth - LINK_LIST_ITEM_WIDTH),
     color: Color.random(),
     background: Color.random()
   };
 
   return (
-    <div className="link-list-item-container" { ...styles }>
+    <div className="link-list-item-container" style={styles}>
       { link.title }
     </div>
   );

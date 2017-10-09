@@ -3,7 +3,7 @@ import LinkListItem from './link-list-item';
 
 const LinkList = ({ links }) => {
   const listItems = links.map(
-    link => <LinkListItem link={ link } />
+    (link, idx) => <LinkListItem key={idx} link={link} />
   );
 
   return (
