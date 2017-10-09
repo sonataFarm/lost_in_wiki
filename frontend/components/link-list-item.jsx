@@ -23,7 +23,7 @@ const LinkListItem = ({ link }) => {
   const styles = generateStyles();
 
   return (
-    <Link to={ link.id }>
+    <Link to={`/${link.id}`}>
       <div className="link-list-item-container" style={ styles }>
           { link.title }
       </div>
