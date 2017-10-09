@@ -16,11 +16,11 @@ const LinkListItem = ({ link }) => {
   };
 
   return (
-    <div className="link-list-item-container" style={ styles }>
-      <Link to={ link.id }>
-        { link.title }
-      </Link>
-    </div>
+    <Link to={ link.id }>
+      <div className="link-list-item-container" style={ styles }>
+          { link.title }
+      </div>
+  </Link>
   );
 }
 
