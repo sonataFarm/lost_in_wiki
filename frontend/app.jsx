@@ -1,17 +1,12 @@
 import React from 'react';
 import Page from './components/page';
-
-const links = [
-   // placeholders pending DB integration
-  { title: 'Elizabeth II' },
-  { title: 'Pederasty in ancient Greece' },
-  { title: 'Corgis' },
-  { title: 'N-N-Dimethyltryptamine' },
-  { title: 'Necrophilia' }
-];
+import { Route, Switch } from 'react-router-dom';
 
 const App = () => (
-  <Page links={ links } />
+  <Switch>
+    <Route path='/' component={Page} />
+    <Route path='/:pageID' component={Page} />
+  </Switch>
 );
 
 export default App;

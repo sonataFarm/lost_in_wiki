@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import Color from '../util/color';
+import { Link } from 'react-router-dom';
 
 const LINK_LIST_ITEM_WIDTH = 200; // width in px
 const LINK_LIST_ITEM_HEIGHT = 30; // height in px
@@ -15,8 +16,10 @@ const LinkListItem = ({ link }) => {
   };
 
   return (
-    <div className="link-list-item-container" style={styles}>
-      { link.title }
+    <div className="link-list-item-container" style={ styles }>
+      <Link to={ link.id }>
+        { link.title }
+      </Link>
     </div>
   );
 }
