@@ -11,7 +11,13 @@ const titles = [
   'Pederasty in ancient Greece',
   'Corgis',
   'N-N-Dimethyltryptamine',
-  'Necrophilia'
+  'Necrophilia',
+  'Paper',
+  'Tree',
+  'Flowering Plant',
+  'Torture',
+  'San Francisco',
+
 ];
 
 const links = titles.map(

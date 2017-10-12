@@ -71,6 +71,7 @@ class Graph
     rs.first.first
   end
 
+###Original code below here
 
   def save_in_links
     #creates a hash where a key is the offset of a page and the value
