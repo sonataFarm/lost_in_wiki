@@ -31,7 +31,7 @@ const removeLists = htmlString => {
 };
 
 const removeImageLinks = htmlString => {
-  const regex = /<a href=".*\.(jpg|jpeg|png|gif)"[^>]*>/g;
+  const regex = /<a href=".*\.(jpg|jpeg|png|gif|svg)"[^>]*>/g;
   return htmlString.replace(regex, "");
 }
 
