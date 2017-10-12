@@ -2,7 +2,6 @@ import merge from 'lodash/merge';
 
 import {RECEIVE_PAGE_DATA} from '../actions/page_actions';
 
-//pagesSlice = {
 export const pagesReducer = (pagesSlice = {}, action) => {
   Object.freeze(pagesSlice);
   let newSlice;
