@@ -1,5 +1,4 @@
 import * as Api from './util/page_api_util';
-import merge from 'lodash/merge';
 
 export const RECEIVE_PAGE_DATA = 'RECEIVE_PAGE_DATA';
 export const RECEIVE_PAGE_ERRORS = 'RECEIVE_PAGE_ERRORS';
