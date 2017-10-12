@@ -15,6 +15,12 @@
 
 /node_modules
 /yarn-error.log
+/db/wikidata/gen
+/db/wikidata/in_links.txt
+/db/wikidata/indexbi.bin
+/db/wikidata/num_out_links.txt
+/db/wikidata/page_ranks.txt
+
 
 .byebug_history
 
