@@ -2,7 +2,7 @@ import wiki from 'wikijs';
 import { removeExtraneousLinks, extractLinks } from './helpers';
 import Page from './page';
 
-const getLinks = title => (
+const fetchLinks = title => (
   wiki().page(title)
     .then(page => page.html())
     .then(html => removeExtraneousLinks(html))
@@ -12,24 +12,24 @@ const getLinks = title => (
     )
 );
 
-const getSummary = title => (
+const fetchSummary = title => (
   wiki().page(title)
     .then(page => page.summary())
 );
 
-const getMainImage = title => (
+const fetchMainImage = title => (
   wiki().page(title)
     .then(page => page.mainImage())
 );
 
-const getImages = title => (
+const fetchImages = title => (
   wiki().page(title)
     .then(page => page.images())
 );
 
 export default {
-  getLinks,
-  getSummary,
-  getMainImage,
-  getImages
+  fetchLinks,
+  fetchSummary,
+  fetchMainImage,
+  fetchImages
 };

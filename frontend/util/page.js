@@ -27,10 +27,10 @@ class Page {
     return `https://www.wikipedia.org/wiki/${this.urlIdentifier}`;
   }
 
-  getLinks = () => APIUtil.getLinks(this.title);
-  getSummary = () => APIUtil.getSummary(this.title);
-  getImages = () => APIUtil.getImages(this.title);
-  getMainImage = () => APIUtil.getMainImage(this.title);
+  fetchLinks = () => APIUtil.fetchLinks(this.title);
+  fetchSummary = () => APIUtil.fetchSummary(this.title);
+  fetchImages = () => APIUtil.fetchImages(this.title);
+  fetchMainImage = () => APIUtil.fetchMainImage(this.title);
 
   toString = () => this.title;
 }
