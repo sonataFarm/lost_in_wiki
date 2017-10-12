@@ -1,14 +1,32 @@
 import wiki from 'wikijs';
 import { removeExtraneousLinks, extractLinks } from './helpers';
+import Page from './page';
 
-const getLinks = page => (
-  // page is human-readable page title
-  wiki().page(page)
+const fetchLinks = title => (
+  wiki().page(title)
     .then(page => page.html())
     .then(html => removeExtraneousLinks(html))
     .then(html => extractLinks(html))
 );
 
+const fetchSummary = title => (
+  wiki().page(title)
+    .then(page => page.summary())
+);
+
+const fetchMainImage = title => (
+  wiki().page(title)
+    .then(page => page.mainImage())
+);
+
+const fetchImages = title => (
+  wiki().page(title)
+    .then(page => page.images())
+);
+
 export default {
-  getLinks
+  fetchLinks,
+  fetchSummary,
+  fetchMainImage,
+  fetchImages
 };
