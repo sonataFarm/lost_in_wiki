@@ -7,7 +7,7 @@ export const errorsReducer = (errorsSlice = {}, action) => {
   let newSlice;
   switch(action.type) {
     case RECEIVE_PAGE_ERRORS:
-      newSlice = merge({}, errorsSlice);
+      newSlice = action.errors;
       return newSlice;
 
     default:
