@@ -7,9 +7,6 @@ const fetchLinks = title => (
     .then(page => page.html())
     .then(html => removeExtraneousLinks(html))
     .then(html => extractLinks(html))
-    .then(linkTitles => linkTitles.map(
-      title => new Page(title))
-    )
 );
 
 const fetchSummary = title => (

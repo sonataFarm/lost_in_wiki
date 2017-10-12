@@ -17,6 +17,7 @@ class Page {
     //   - page title
     //   - URL identifier
     this.title = this.constructor.decodeIdentifier(title);
+    this.fetchMainImage();
   }
 
   get urlIdentifier() {
@@ -27,10 +28,17 @@ class Page {
     return `https://www.wikipedia.org/wiki/${this.urlIdentifier}`;
   }
 
-  fetchLinks = () => APIUtil.fetchLinks(this.title);
-  fetchSummary = () => APIUtil.fetchSummary(this.title);
-  fetchImages = () => APIUtil.fetchImages(this.title);
-  fetchMainImage = () => APIUtil.fetchMainImage(this.title);
+  fetchLinks = () => APIUtil.fetchLinks(this.title)
+    .then(links => this.links = links);
+
+  fetchSummary = () => APIUtil.fetchSummary(this.title)
+    .then(summary => this.summary = summary);
+
+  fetchImages = () => APIUtil.fetchImages(this.title)
+    .then(images => this.images = images);
+
+  fetchMainImage = () => APIUtil.fetchMainImage(this.title)
+    .then(mainImage => this.mainImage = mainImage);
 
   toString = () => this.title;
 }
