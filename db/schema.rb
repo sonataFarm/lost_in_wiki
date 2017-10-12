@@ -22,5 +22,4 @@ ActiveRecord::Schema.define(version: 20171011011530) do
     t.datetime "updated_at", null: false
     t.index ["title"], name: "index_pages_on_title", unique: true
   end
-
 end

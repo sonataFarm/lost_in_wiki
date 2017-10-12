@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const COLOR_MAX = 255;
+const MAX_HUE_VALUE = 255;
 const MIN_CONTRAST = 3.5;
 
 class Color {
@@ -14,7 +14,7 @@ class Color {
   }
 
   static randomRGBValue() {
-    return _.random(COLOR_MAX);
+    return _.random(MAX_HUE_VALUE);
   }
 
   static fromString(colorString) {
@@ -59,7 +59,7 @@ class Color {
     let hues = [this.red, this.green, this.blue];
 
     hues = hues.map(hue => {
-      hue /= COLOR_MAX;
+      hue /= MAX_HUE_VALUE;
       return hue <= 0.03928 ? hue / 12.92 : Math.pow( (hue + 0.055) / 1.055, 2.4 );
     });
 

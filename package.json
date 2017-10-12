@@ -15,6 +15,7 @@
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
+    "urlencode": "^1.1.0",
     "webpack": "^3.6.0",
     "wikijs": "^4.3.0",
     "write": "^1.0.3"
@@ -25,7 +26,10 @@
   "directories": {
     "test": "test"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack -w"
