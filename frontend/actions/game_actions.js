@@ -18,7 +18,7 @@ export const addPageToHistory = (pageTitle) => ({
   pageTitle
 });
 
-export const startNewGame = (originTitle, destinationTitle) => ({
+export const startNewGame = (originTitle, destinationTitle, difficulty) => ({
   type: START_NEW_GAME,
   originTitle,
   destinationTitle
