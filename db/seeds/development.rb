@@ -1,4 +1,4 @@
- Page.create!([
+Page.create!([
   {title: "United States", page_rank: 0.00152323561955701},
   {title: "Wikipedia", page_rank: 0.00102040496685928},
   {title: "Location (geography)", page_rank: 0.000963639204554465},

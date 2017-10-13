@@ -7,15 +7,23 @@ import {requestPageData} from './actions/page_actions';
 import {updateCurrentPage} from './actions/game_actions';
 
 document.addEventListener('DOMContentLoaded', () => {
-  let preloadedState = {game: {pageHistory: []}};
-  let store = configureStore(preloadedState);
-
-  //testing purposes only
+  let store = configureStore({});
   window.store = store;
-  window.fetchPage = fetchPage;
-  window.requestPageData = requestPageData;
-  window.updateCurrentPage = updateCurrentPage;
-
   const root = document.getElementById('root');
   ReactDOM.render(<Root store={store}/>, root);
 });
+
+// !!! testing and debugging
+import Page from './util/page';
+window.Page = Page;
+import wiki from 'wikijs';
+window.wiki = wiki;
+import APIUtil from './util/api-util';
+window.APIUtil = APIUtil;
+import urlencode from 'urlencode';
+window.urlencode = urlencode;
+
+window.fetchPage = fetchPage;
+window.requestPageData = requestPageData;
+window.updateCurrentPage = updateCurrentPage;
+// !!!
