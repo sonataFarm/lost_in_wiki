@@ -1,10 +1,11 @@
-import * as Api from '../util/backend/page_api_util';
+import * as BackendAPI from '../util/backend/page_api_util';
+import * as WikiAPI from '../util/wiki/'
 
-export const RECEIVE_PAGE_DATA = 'RECEIVE_PAGE_DATA';
+export const RECEIVE_BACKEND_PAGE = 'RECEIVE_BACKEND_PAGE';
 export const RECEIVE_PAGE_ERRORS = 'RECEIVE_PAGE_ERRORS';
 
-export const receivePageData = (page) => ({
-  type: RECEIVE_PAGE_DATA,
+export const receiveBackendPage = (page) => ({
+  type: RECEIVE_BACKEND_PAGE,
   page
 });
 
@@ -14,9 +15,9 @@ export const receivePageErrors = (errors) => ({
 });
 
 
-export const requestPageData = title => dispatch => {
-  Api.fetchPage(title).then(
-    page => dispatch(receivePageData(page)),
+export const requestBackendPage = title => dispatch => {
+  BackendAPI.fetchPage(title).then(
+    page => dispatch(receiveBackendPage(page)),
     errors => dispatch(receivePageErrors(errors))
   );
 };
