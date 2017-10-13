@@ -1,6 +1,8 @@
 import React from 'react';
 import threeUtil from '../util/three-util';
 
+const NUM_STARS = 500;
+
 class StarField extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +18,9 @@ class StarField extends React.Component {
     this.scene.add(this.group);
 
     this.geometry = new THREE.Geometry();
-    this.generateParticles();
+
+    this.generateStars(this.props.links);
+
     this.line = new THREE.Line(
       this.geometry,
       new THREE.LineBasicMaterial({
@@ -35,9 +39,11 @@ class StarField extends React.Component {
   componentDidMount() {
     document.getElementById('starfield').appendChild(this.renderer.domElement);
     this.setEventListeners();
-
-
     this.animate();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    generateStars(nextProps.links);
   }
 
   animate = () => {
@@ -51,7 +57,6 @@ class StarField extends React.Component {
     this.camera.lookAt(this.scene.position);
     this.renderer.render(this.scene, this.camera);
   }
-
 
   setEventListeners = () => {
     document.addEventListener('mousemove', this.onDocumentMouseMove, false);
@@ -107,48 +112,46 @@ class StarField extends React.Component {
     this.renderer.setSize( window.innerWidth, window.innerHeight );
   };
 
-  program = context => {
-    context.beginPath();
-    context.arc(0, 0, 0.5, 0, Math.PI * 2, false);
-    context.fill();
-  };
-
   initializeCamera = () => {
     const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 3000);
     camera.position.z = 1000;
     return camera;
   }
 
-  generateParticles = () => {
-    for ( var i = 0; i < 500; i++ ) {
+  generateStars = (links) => {
+    const program = context => {
+      context.beginPath();
+      context.arc(0, 0, 0.5, 0, Math.PI * 2, false);
+      context.fill();
+    };
 
-      const material = new THREE.SpriteCanvasMaterial({
-        color: threeUtil.generateRandomColor(),
-        program: this.program
-      });
+    const material = new THREE.SpriteCanvasMaterial({
+      color: threeUtil.generateRandomColor(),
+      program
+    });
 
-      let particle = new THREE.Sprite( material );
-      particle.position.x = Math.random() * 2000 - 1000;
-      particle.position.y = Math.random() * 2000 - 1000;
-      particle.position.z = Math.random() * 2000 - 1000;
-      particle.scale.x = particle.scale.y = Math.random() * 20 + 10;
-      this.group.add( particle );
+    for (let i = 0; i < NUM_STARS; i++) {
+      let star = new THREE.Sprite(material);
+      star.position.x = Math.random() * 2000 - 1000;
+      star.position.y = Math.random() * 2000 - 1000;
+      star.position.z = Math.random() * 2000 - 1000;
+      star.scale.x = star.scale.y = Math.random() * 20 + 10;
+      this.group.add(star);
 
       // if(i < currentPage.links.length)
-      if (i % 10 === 0) {
+      if (links && i < links.length) {
         material.color = new THREE.Color(0, 1, 0);
-        // particle.title
-        var spriteText = threeUtil.makeTextSprite("pineapple", 18);
+        var linkText = makeTextSprite(links[i], 18);
 
-        var scale = spriteText.position.distanceTo(this.camera.position) / 1;
+        var scale = linkText.position.distanceTo(this.camera.position) / 1;
         scale = Math.min(100, Math.max(100, scale));
 
-        spriteText.scale.set(scale, scale, scale);
-        spriteText.position.set(particle.position.x  , particle.position.y + 20 , particle.position.z);
-        this.group.add(spriteText);
+        linkText.scale.set(scale, scale, scale);
+        linkText.position.set(star.position.x, star.position.y + 20, star.position.z);
+        this.group.add(linkText);
       }
 
-      this.geometry.vertices.push(particle.position);
+      this.geometry.vertices.push(star.position);
     }
   }
 
