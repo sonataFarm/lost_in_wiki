@@ -3,8 +3,8 @@ import Star from './star';
 
 const LINK_STAR_COLOR = 'blue';
 const LABEL_FONT_SIZE = 18;
-const LABEL_X_OFFSET = 5;
-const LABEL_Y_OFFSET = 20;
+const LABEL_X_OFFSET = 50;
+const LABEL_Y_OFFSET = 0;
 
 
 class LinkStar extends Star {

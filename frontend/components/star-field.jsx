@@ -1,3 +1,21 @@
+/* !!! TODO: removeEventListeners
+
+mapped state props are {
+  links,
+  currentPage,
+  focusedLink
+}
+
+- need to do:
+  - slow rotate to focused link
+  - fast rotate/zoom to selected link
+  - coloring
+
+- want to do:
+  - hover effect
+
+*/
+
 import React from 'react';
 import threeUtil from '../util/three/three-util';
 import Star from '../util/three/star';
@@ -21,8 +39,6 @@ class StarField extends React.Component {
 
     this.geometry = new THREE.Geometry();
 
-    this.generateStars(this.props.links);
-
     this.line = new THREE.Line(
       this.geometry,
       new THREE.LineBasicMaterial({
@@ -41,6 +57,7 @@ class StarField extends React.Component {
   componentDidMount() {
     document.getElementById('starfield').appendChild(this.renderer.domElement);
     this.setEventListeners();
+    this.generateStars(this.props.links);
     this.animate();
   }
 
@@ -133,22 +150,25 @@ class StarField extends React.Component {
   }
 
   generateStars = () => {
-    const links = this.props.links || [];
+    const linkStars = this.props.links.map(
+      link => new LinkStar(link, this.camera)
+    );
 
-    let i;
-    for (i = 0; i < this.props.links.length; i++) {
-      let linkStar = new LinkStar(links[i], this.camera);
-
+    linkStars.forEach(linkStar => {
       this.group.add(linkStar);
-      this.group.add(linkStar.label);
       this.geometry.vertices.push(linkStar.position);
-    }
+      this.group.add(linkStar.label);
+    });
 
-    for (let i = 0; i < NUM_STARS; i++) {
+    for (let i = linkStars.length; i < NUM_STARS; i++) {
       let star = new Star();
       this.group.add(star);
       this.geometry.vertices.push(star.position);
     }
+
+    this.setState(
+      { linkStars }
+    );
   }
 
   render() {
