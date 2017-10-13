@@ -6,9 +6,9 @@ import {fetchPage} from './util/page_api_util';
 import {requestPageData} from './actions/page_actions';
 import {updateCurrentPage} from './actions/game_actions';
 
-const store = configureStore({});
-
 document.addEventListener('DOMContentLoaded', () => {
+  let store = configureStore({});
+  window.store = store;
   const root = document.getElementById('root');
   ReactDOM.render(<Root store={store}/>, root);
 });
@@ -22,7 +22,7 @@ import APIUtil from './util/api-util';
 window.APIUtil = APIUtil;
 import urlencode from 'urlencode';
 window.urlencode = urlencode;
-window.store = store;
+
 window.fetchPage = fetchPage;
 window.requestPageData = requestPageData;
 window.updateCurrentPage = updateCurrentPage;
