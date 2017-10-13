@@ -2,7 +2,6 @@ import merge from 'lodash/merge';
 import {
   UPDATE_CURRENT_PAGE,
   UPDATE_FOCUS_PAGE,
-  ADD_PAGE_TO_HISTORY,
   START_NEW_GAME
 } from '../actions/game_actions.js';
 
@@ -24,16 +23,12 @@ export const gameReducer = (gameSlice = {}, action) => {
     case UPDATE_CURRENT_PAGE:
       newSlice = merge({}, gameSlice);
       newSlice.currentPage = action.pageTitle;
+      newSlice.history.push(action.pageTitle);
       return newSlice;
 
     case UPDATE_FOCUS_PAGE:
       newSlice = merge({}, gameSlice);
       newSlice.focusPage = action.pageTitle;
-      return newSlice;
-
-    case ADD_PAGE_TO_HISTORY:
-      newSlice = merge({}, gameSlice);
-      newSlice.pageHistory.push(action.pageTitle);
       return newSlice;
 
     default:
