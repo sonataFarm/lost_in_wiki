@@ -15,7 +15,9 @@ export const gameReducer = (gameSlice = {}, action) => {
         origin: action.originTitle,
         destination: action.destinationTitle,
         currentPage: action.originTitle,
-        focusPage: action.originTitle
+        focusPage: action.originTitle,
+        difficulty: action.difficulty,
+        won: false,
       };
 
     case UPDATE_CURRENT_PAGE:
