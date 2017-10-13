@@ -1,8 +1,9 @@
 import React from 'react';
-import threeUtil from '../util/three-util';
+import threeUtil from '../util/three/three-util';
+import Star from '../util/three/star';
+import LinkStar from '../util/three/link-star';
 
 const NUM_STARS = 500;
-const FONT_SIZE = 18;
 
 class StarField extends React.Component {
   constructor(props) {
@@ -64,7 +65,19 @@ class StarField extends React.Component {
     document.addEventListener('touchstart', this.onDocumentTouchStart, false);
     document.addEventListener('touchmove', this.onDocumentTouchMove, false);
     document.addEventListener('mousedown', this.onDocumentMouseDown, true);
+    document.addEventListener('keydown', this.onKeyDown.bind(this));
 		window.addEventListener('resize', this.onWindowResize, false);
+  }
+
+  onKeyDown = event => {
+    if (event.key === 'ArrowUp') {
+      this.camera.position.z -= 50;
+    } else if (event.key === 'ArrowDown') {
+      this.camera.position.z += 50;
+    }
+
+    console.log(event.key);
+    console.log(this.camera.position)
   }
 
   onDocumentMouseMove = event => {
@@ -114,72 +127,25 @@ class StarField extends React.Component {
   };
 
   initializeCamera = () => {
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 3000);
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.z = 1000;
     return camera;
-  }
-
-  assignRandomStarCoords = star => {
-    star.position.x = Math.random() * 2000 - 1000;
-    star.position.y = Math.random() * 2000 - 1000;
-    star.position.z = Math.random() * 2000 - 1000;
-    star.scale.x = star.scale.y = Math.random() * 20 + 10;
-
-    return star;
-  }
-
-  generateStar = material => {
-    let star = new THREE.Sprite(material);
-    this.assignRandomStarCoords(star);
-    return star;
-  }
-
-  generateLinkStarLabel = (star, link) => {
-    const linkLabel = threeUtil.makeTextSprite(link, FONT_SIZE);
-
-    let scale = linkLabel.position.distanceTo(this.camera.position) / 1;
-    scale = Math.min(100, Math.max(100, scale));
-
-    linkLabel.scale.set(scale, scale, scale);
-    linkLabel.position.set(star.position.x, star.position.y + 20, star.position.z);
-
-    return linkLabel;
   }
 
   generateStars = () => {
     const links = this.props.links || [];
 
-    const program = context => {
-      context.beginPath();
-      context.arc(0, 0, 0.5, 0, Math.PI * 2, false);
-      context.fill();
-    };
-
-    const linkStarColor = threeUtil.generateRandomColor();
-    const linkStarMaterial = new THREE.SpriteCanvasMaterial({
-      color: linkStarColor,
-      program
-    });
-
     let i;
     for (i = 0; i < this.props.links.length; i++) {
-      // generate link stars
-      let linkStar = this.generateStar(linkStarMaterial);
-      let linkStarLabel = this.generateLinkStarLabel(linkStar, links[i]);
+      let linkStar = new LinkStar(links[i], this.camera);
 
       this.group.add(linkStar);
-      this.group.add(linkStarLabel);
+      this.group.add(linkStar.label);
       this.geometry.vertices.push(linkStar.position);
     }
 
-    for ( ; i < NUM_STARS; i++) {
-      // generate linkless stars
-      let starColor = threeUtil.generateRandomColor();
-      let starMaterial = new THREE.SpriteCanvasMaterial({
-        color: starColor,
-        program
-      });
-      let star = this.generateStar(starMaterial);
+    for (let i = 0; i < NUM_STARS; i++) {
+      let star = new Star();
       this.group.add(star);
       this.geometry.vertices.push(star.position);
     }
