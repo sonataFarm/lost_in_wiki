@@ -7,7 +7,8 @@ import {requestPageData} from './actions/page_actions';
 import {updateCurrentPage} from './actions/game_actions';
 
 document.addEventListener('DOMContentLoaded', () => {
-  let store = configureStore({});
+  let preloadedState = {game: {pageHistory: []}};
+  let store = configureStore(preloadedState);
 
   //testing purposes only
   window.store = store;
