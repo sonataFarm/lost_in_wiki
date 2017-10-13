@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import LinkFlow from './components/link-flow';
+import LinkFlow from './components/link_flow/link-flow';
 import StarField from './components/star-field';
 
 // !!! testing

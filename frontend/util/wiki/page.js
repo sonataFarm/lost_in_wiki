@@ -1,5 +1,5 @@
 import urlencode from 'urlencode';
-import APIUtil from './api-util';
+import * as WikiUtil from './wiki-api-util';
 
 class Page {
   static encodeIdentifier(title) {
@@ -28,16 +28,16 @@ class Page {
     return `https://www.wikipedia.org/wiki/${this.urlIdentifier}`;
   }
 
-  fetchLinks = () => APIUtil.fetchLinks(this.title)
+  fetchLinks = () => WikiUtil.fetchLinks(this.title)
     .then(links => this.links = links);
 
-  fetchSummary = () => APIUtil.fetchSummary(this.title)
+  fetchSummary = () => WikiUtil.fetchSummary(this.title)
     .then(summary => this.summary = summary);
 
-  fetchImages = () => APIUtil.fetchImages(this.title)
+  fetchImages = () => WikiUtil.fetchImages(this.title)
     .then(images => this.images = images);
 
-  fetchMainImage = () => APIUtil.fetchMainImage(this.title)
+  fetchMainImage = () => WikiUtil.fetchMainImage(this.title)
     .then(mainImage => this.mainImage = mainImage);
 
   toString = () => this.title;

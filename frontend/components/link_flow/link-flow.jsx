@@ -1,6 +1,6 @@
 import React from 'react';
 import CoverFlow from 'coverflow-react';
-import Page from '../util/page';
+import Page from '../../util/wiki/page';
 
 const IMG_FILL = 'https://hyperallergic.com/wp-content/uploads/2015/11/Allais_blacksquare-HOME.jpg';
 const HEIGHT = 80;
