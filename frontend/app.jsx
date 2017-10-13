@@ -10,7 +10,7 @@ import hitlerLinks from './util/hitler-links';
 
 const App = props => (
   <Switch>
-    <Route exact path='/' render={() => <StarField links={ links } />}/>
+    <Route exact path='/' render={() => <StarField links={ _.shuffle(hitlerLinks).slice(0, 30) } />}/>
     <Route path='/linkFlow' component={ LinkFlowContainer } />
   </Switch>
 );
