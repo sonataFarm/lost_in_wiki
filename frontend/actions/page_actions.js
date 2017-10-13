@@ -1,5 +1,5 @@
-import * as BackendAPI from '../util/backend/page_api_util';
-import * as WikiAPI from '../util/wiki/';
+import * as BackendAPI from '../util/backend/backend-api-util';
+import * as WikiAPI from '../util/wiki/wiki-api-util';
 import urlencode from 'urlencode';
 
 export const RECEIVE_BACKEND_PAGE = 'RECEIVE_BACKEND_PAGE';
