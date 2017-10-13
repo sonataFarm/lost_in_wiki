@@ -2,6 +2,7 @@ import React from 'react';
 import threeUtil from '../util/three-util';
 
 const NUM_STARS = 500;
+const FONT_SIZE = 18;
 
 class StarField extends React.Component {
   constructor(props) {
@@ -118,39 +119,68 @@ class StarField extends React.Component {
     return camera;
   }
 
-  generateStars = (links) => {
+  assignRandomStarCoords = star => {
+    star.position.x = Math.random() * 2000 - 1000;
+    star.position.y = Math.random() * 2000 - 1000;
+    star.position.z = Math.random() * 2000 - 1000;
+    star.scale.x = star.scale.y = Math.random() * 20 + 10;
+
+    return star;
+  }
+
+  generateStar = material => {
+    let star = new THREE.Sprite(material);
+    this.assignRandomStarCoords(star);
+    return star;
+  }
+
+  generateLinkStarLabel = (star, link) => {
+    const linkLabel = threeUtil.makeTextSprite(link, FONT_SIZE);
+
+    let scale = linkLabel.position.distanceTo(this.camera.position) / 1;
+    scale = Math.min(100, Math.max(100, scale));
+
+    linkLabel.scale.set(scale, scale, scale);
+    linkLabel.position.set(star.position.x, star.position.y + 20, star.position.z);
+
+    return linkLabel;
+  }
+
+  generateStars = () => {
+    const links = this.props.links || [];
+
     const program = context => {
       context.beginPath();
       context.arc(0, 0, 0.5, 0, Math.PI * 2, false);
       context.fill();
     };
 
-    const material = new THREE.SpriteCanvasMaterial({
-      color: threeUtil.generateRandomColor(),
+    const linkStarColor = threeUtil.generateRandomColor();
+    const linkStarMaterial = new THREE.SpriteCanvasMaterial({
+      color: linkStarColor,
       program
     });
 
-    for (let i = 0; i < NUM_STARS; i++) {
-      let star = new THREE.Sprite(material);
-      star.position.x = Math.random() * 2000 - 1000;
-      star.position.y = Math.random() * 2000 - 1000;
-      star.position.z = Math.random() * 2000 - 1000;
-      star.scale.x = star.scale.y = Math.random() * 20 + 10;
+    let i;
+    for (i = 0; i < this.props.links.length; i++) {
+      // generate link stars
+      let linkStar = this.generateStar(linkStarMaterial);
+      let linkStarLabel = this.generateLinkStarLabel(linkStar, links[i]);
+
+      this.group.add(linkStar);
+      this.group.add(linkStarLabel);
+      this.geometry.vertices.push(linkStar.position);
+    }
+
+    for ( ; i < NUM_STARS; i++) {
+      // generate linkless stars
+      let starColor = threeUtil.generateRandomColor();
+      let starMaterial = new THREE.SpriteCanvasMaterial({
+        color: starColor,
+        program
+      });
+      let star = this.generateStar(starMaterial);
       this.group.add(star);
-
-      // if(i < currentPage.links.length)
-      if (links && i < links.length) {
-        material.color = new THREE.Color(0, 1, 0);
-        var linkText = makeTextSprite(links[i], 18);
-
-        var scale = linkText.position.distanceTo(this.camera.position) / 1;
-        scale = Math.min(100, Math.max(100, scale));
-
-        linkText.scale.set(scale, scale, scale);
-        linkText.position.set(star.position.x, star.position.y + 20, star.position.z);
-        this.group.add(linkText);
-      }
-
       this.geometry.vertices.push(star.position);
     }
   }
@@ -164,34 +194,3 @@ class StarField extends React.Component {
 }
 
 export default StarField;
-
-/*
-
-  mouse x, y from redux state?
-
-  document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-  document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-  document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-  document.addEventListener( 'mousedown', onDocumentMouseDown, true );
-  window.addEventListener( 'resize', onWindowResize, false );
-
-  3jsUtil methods
-    - makeTextSprite(message, fontsize)
-    - onWindowResize()
-    - animate()
-    - render()
-    - program(context)
-
-
-  Class Methods
-    -onDocumentMouseDown(event)
-    -onDocumentMouseMove(event)
-    -onDocumentTouchStart(event)
-    -onDocumentTouchMove(event)
-
-  Questions
-    - init() ?
-    - init gets the link names (and info)
-    - what is animate variable on requestAnimationFrame?
-    - are particles subcomponents?
-*/

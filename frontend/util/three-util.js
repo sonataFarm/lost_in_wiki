@@ -29,5 +29,4 @@ const generateRandomColor = () => (
 export default {
   makeTextSprite,
   generateRandomColor,
-  generateStars
 }
