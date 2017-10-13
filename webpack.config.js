@@ -1,5 +1,6 @@
 // webpack.config.js
 var path = require('path');
+var test = "TEST";
 
 module.exports = {
   entry: "./frontend/entry.jsx",
