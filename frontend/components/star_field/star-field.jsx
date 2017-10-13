@@ -1,7 +1,7 @@
 import React from 'react';
-import threeUtil from '../util/three/three-util';
-import Star from '../util/three/star';
-import LinkStar from '../util/three/link-star';
+import threeUtil from '../../util/three/three-util';
+import Star from '../../util/three/star';
+import LinkStar from '../../util/three/link-star';
 
 const NUM_STARS = 500;
 
