@@ -1,5 +1,3 @@
-import * as THREE from three;
-
 const makeTextSprite = ( message, fontsize ) => {
   var ctx, texture, sprite, spriteMaterial, canvas = document.createElement('canvas');
       ctx = canvas.getContext('2d');
@@ -31,5 +29,4 @@ const generateRandomColor = () => (
 export default {
   makeTextSprite,
   generateRandomColor,
-  eventListeners
 }

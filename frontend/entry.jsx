@@ -6,8 +6,9 @@ import {fetchPage} from './util/page_api_util';
 import {requestPageData} from './actions/page_actions';
 import {updateCurrentPage} from './actions/game_actions';
 
+const store = configureStore({});
+
 document.addEventListener('DOMContentLoaded', () => {
-  let store = configureStore({});
   const root = document.getElementById('root');
   ReactDOM.render(<Root store={store}/>, root);
 });

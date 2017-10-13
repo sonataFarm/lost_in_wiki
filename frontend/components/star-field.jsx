@@ -1,5 +1,4 @@
 import React from 'react';
-import * as THREE from three;
 import threeUtil from '../util/three-util';
 
 class StarField extends React.Component {
@@ -7,18 +6,17 @@ class StarField extends React.Component {
     super(props);
 
     [this.mouseX, this.mouseY] = [0, 0];
-
     this.windowHalfX = window.innerWidth / 2;
     this.windowHalfY = window.innerHeight / 2;
 
-    this.renderer = new THREE.CanvasRenderer();
-    this.group = new THREE.group();
     this.camera = this.initializeCamera();
-
     this.scene = new THREE.Scene();
-    this.scene.add(this.group);
-    this.geometry = new THREE.Geometry();
 
+    this.group = new THREE.Group();
+    this.scene.add(this.group);
+
+    this.geometry = new THREE.Geometry();
+    this.generateParticles();
     this.line = new THREE.Line(
       this.geometry,
       new THREE.LineBasicMaterial({
@@ -30,25 +28,27 @@ class StarField extends React.Component {
     this.group.add(this.line);
 
     this.renderer = new THREE.CanvasRenderer();
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
   componentDidMount() {
+    document.getElementById('starfield').appendChild(this.renderer.domElement);
     this.setEventListeners();
+
+
     this.animate();
   }
 
   animate = () => {
     requestAnimationFrame(this.animate);
-    render();
+    this.renderNextFrame();
   }
 
-  render = () => {
+  renderNextFrame = () => {
     this.camera.position.x += (this.mouseX - this.camera.position.x) * 1;
     this.camera.position.y += (-this.mouseY - this.camera.position.y) * 1;
     this.camera.lookAt(this.scene.position);
-
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -98,8 +98,8 @@ class StarField extends React.Component {
   }
 
   onWindowResize = () => {
-    windowHalfX = window.innerWidth;
-    windowHalfY = window.innerHeight;
+    this.windowHalfX = window.innerWidth;
+    this.windowHalfY = window.innerHeight;
 
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
@@ -107,16 +107,11 @@ class StarField extends React.Component {
     this.renderer.setSize( window.innerWidth, window.innerHeight );
   };
 
-
-
-
-
-
-  program = (context) => {
+  program = context => {
     context.beginPath();
-    context.arc(0, 0, 0.5, 0. Math.PI * 2, false);
+    context.arc(0, 0, 0.5, 0, Math.PI * 2, false);
     context.fill();
-  }
+  };
 
   initializeCamera = () => {
     const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 3000);
@@ -145,7 +140,7 @@ class StarField extends React.Component {
         // particle.title
         var spriteText = threeUtil.makeTextSprite("pineapple", 18);
 
-        var scale = spriteText.position.distanceTo(camera.position) / 1;
+        var scale = spriteText.position.distanceTo(this.camera.position) / 1;
         scale = Math.min(100, Math.max(100, scale));
 
         spriteText.scale.set(scale, scale, scale);
@@ -159,10 +154,9 @@ class StarField extends React.Component {
 
   render() {
     return (
-      <div>
-        { this.renderer.domElement }
+      <div id="starfield">
       </div>
-    )
+    );
   }
 }
 
@@ -197,3 +191,4 @@ export default StarField;
     - init gets the link names (and info)
     - what is animate variable on requestAnimationFrame?
     - are particles subcomponents?
+*/
