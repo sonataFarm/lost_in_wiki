@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import LinkFlow from './components/link_flow/link-flow';
-import StarField from './components/star-field';
+import LinkFlowContainer from './components/link_flow/link-flow-container';
+import StarFieldContainer from './components/star-field-container ';
 
 // !!! testing
 import _ from 'lodash';
@@ -10,8 +10,8 @@ import hitlerLinks from './util/hitler-links';
 
 const App = props => (
   <Switch>
-    <Route exact path='/' render={ () => <StarField links={ _.shuffle(hitlerLinks).slice(0, 50) } /> } />
-    <Route path='/linkFlow' component={ LinkFlow } />
+    <Route exact path='/' component={StarFieldContainer}/>
+    <Route path='/linkFlow' component={ LinkFlowContainer } />
   </Switch>
 );
 
