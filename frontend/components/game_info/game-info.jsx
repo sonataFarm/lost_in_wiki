@@ -5,6 +5,12 @@ class GameInfo extends React.Component {
     super(props);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.game.won && nextProps.game.won) {
+      this.props.gameWon();
+    }
+  }
+
   render() {
     return(
       <div className='game-info'>
