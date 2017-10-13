@@ -13,10 +13,5 @@
 //= require rails-ujs
 //= require jquery
 //= require jquery_ujs
-//= require three.js
-//= require projector.js
-//= require canvas-renderer.js
-//= require orbit-controls.js
-//= require stats.min.js
-//= require dat.gui.min.js
+//= require_tree ../../../vendor/assets/
 //= require_tree .
