@@ -12,13 +12,14 @@ export const gameReducer = (gameSlice = {}, action) => {
   switch(action.type) {
     case START_NEW_GAME:
       newSlice = {
-        origin: action.originTitle,
+        history: [action.originTitle],
         destination: action.destinationTitle,
         currentPage: action.originTitle,
         focusPage: action.originTitle,
         difficulty: action.difficulty,
         won: false,
       };
+      return newSlice;
 
     case UPDATE_CURRENT_PAGE:
       newSlice = merge({}, gameSlice);
