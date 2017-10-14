@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {
   requestBackendPage,
   requestPageLinks,
-} from '../../actions/page_actions.js';
+} from '../../actions/page-actions.js';
 import StarField from './star-field';
 
 const mapStateToProps = state => ({

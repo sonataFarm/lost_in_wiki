@@ -4,7 +4,7 @@ import {
   RECEIVE_BACKEND_PAGE_DATA,
   RECEIVE_PAGE_LINKS,
   RECEIVE_PAGE_SUMMARY
-} from '../actions/page_actions';
+} from '../actions/page-actions';
 
 export const pagesReducer = (pagesSlice = {}, action) => {
   Object.freeze(pagesSlice);
@@ -27,7 +27,7 @@ export const pagesReducer = (pagesSlice = {}, action) => {
       newSlice = merge({}, pagesSlice);
       newSlice[action.title].summary = action.summary;
       return newSlice;
-    
+
     default:
       return pagesSlice;
   }

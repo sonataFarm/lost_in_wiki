@@ -1,6 +1,6 @@
-import {pagesReducer} from './pages_reducer';
-import {errorsReducer} from './errors_reducer';
-import {gameReducer} from './game_reducer';
+import {pagesReducer} from './pages-reducer';
+import {errorsReducer} from './errors-reducer';
+import {gameReducer} from './game-reducer';
 import {combineReducers} from 'redux';
 
 const rootReducer = combineReducers({

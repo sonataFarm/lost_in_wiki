@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 
-import {RECEIVE_PAGE_ERRORS} from '../actions/page_actions';
+import {RECEIVE_PAGE_ERRORS} from '../actions/page-actions';
 
 export const errorsReducer = (errorsSlice = {}, action) => {
   Object.freeze(errorsSlice);
