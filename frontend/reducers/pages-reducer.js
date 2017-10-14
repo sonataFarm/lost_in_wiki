@@ -3,7 +3,8 @@ import merge from 'lodash/merge';
 import {
   RECEIVE_BACKEND_PAGE,
   RECEIVE_PAGE_LINKS,
-  RECEIVE_PAGE_SUMMARY
+  RECEIVE_PAGE_SUMMARY,
+  RECEIVE_PAGE_RANKS
 } from '../actions/page-actions';
 
 export const pagesReducer = (pagesSlice = {}, action) => {
@@ -18,8 +19,17 @@ export const pagesReducer = (pagesSlice = {}, action) => {
       );
       return newSlice;
 
+    case RECEIVE_PAGE_RANKS:
+      newSlice = merge({}, pagesSlice);
+      action.pages.forEach( (page) => {
+        newSlice[page.title] = newSlice[page.title] || {title: page.title};
+        newSlice[page.title].pageRank = page.pageRank;
+      });
+      return newSlice;
+
     case RECEIVE_PAGE_LINKS:
       newSlice = merge({}, pagesSlice);
+      newSlice[action.title] = newSlice[action.title] || {title: action.title};
       newSlice[action.title].links = action.links;
       return newSlice;
 

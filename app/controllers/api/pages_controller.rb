@@ -11,7 +11,7 @@ class Api::PagesController < ApplicationController
   end
 
   def page_ranks
-    titles = params.require(:titles).values
+    titles = params.require(:titles)
     @pages = Page.select(:title, :page_rank).where(title: titles)
     render "api/pages/page_ranks"
   end

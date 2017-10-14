@@ -7,8 +7,8 @@ export const fetchPage = (title) => (
 
 export const fetchPageRanks = titles => (
   $.ajax({
-    url: '/api/pages/page_ranks',
-    method: 'GET',
+    url: '/api/page_ranks',
+    method: 'POST',
     data: {
       titles
     }

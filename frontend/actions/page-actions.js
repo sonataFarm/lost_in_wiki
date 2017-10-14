@@ -58,13 +58,16 @@ export const requestBackendPage = title => dispatch => {
 
 export const requestPageRanks = titles => dispatch => {
   BackendAPI.fetchPageRanks(titles).then(
-    pages => dispatch(receivePageRanks(pages))
+    pages => dispatch(receivePageRanks(pages)),
+    errors => dispatch(receivePageErrors(errors))
   );
 };
 
 export const requestPageLinks = title => dispatch => {
   WikiAPI.fetchLinks(title).then(
-    links => dispatch(receivePageLinks(title,links)),
+    links => dispatch(receivePageLinks(title,
+      links.map(link => decodeIdentifier(link))
+    )),
     errors => dispatch(receivePageErrors(errors))
   );
 };
