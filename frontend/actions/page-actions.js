@@ -9,7 +9,7 @@ export const RECEIVE_PAGE_LINKS = 'RECEIVE_PAGE_LINKS';
 export const RECEIVE_PAGE_SUMMARY = 'RECEIVE_PAGE_SUMMARY';
 export const RECEIVE_MAIN_IMAGE = 'RECEIVE_MAIN_IMAGE';
 export const RECEIVE_IMAGES = 'RECEIVE_IMAGES';
-export const RECEIVE_USABLE_LINKS = 'RECEIVE_USABLE_LINKS';
+export const GET_USABLE_LINKS = 'GET_USABLE_LINKS';
 
 export const receiveBackendPage = (page) => ({
   type: RECEIVE_BACKEND_PAGE,
@@ -51,10 +51,10 @@ export const receiveImages = (title, images) => ({
   images
 });
 
-export const receiveUsableLinks = (title, usableLinks) => ({
-  type: RECEIVE_USABLE_LINKS,
+export const getUsableLinks = (title, difficulty) => ({
+  type: GET_USABLE_LINKS,
   title,
-  usableLinks
+  difficulty
 });
 
 export const requestBackendPage = title => dispatch => {
@@ -99,6 +99,7 @@ export const requestImages = title => dispatch => {
     errors => dispatch(receivePageErrors(errors))
   );
 };
+
 
 
 const encodeIdentifier = (title) => {
