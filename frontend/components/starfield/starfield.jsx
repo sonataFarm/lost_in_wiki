@@ -6,6 +6,63 @@ import LinkStar from '../../util/three/link-star';
 
 const NUM_STARS = 500;
 
+const STARFIELD_DIAMETER = 2000;
+
+// coordinate plane boundaries for stars
+const X_LO = -Math.floor(STARFIELD_DIAMETER / 2);
+const X_HI =  Math.floor(STARFIELD_DIAMETER / 2);
+const Y_LO = -Math.floor(STARFIELD_DIAMETER / 2);
+const Y_HI =  Math.floor(STARFIELD_DIAMETER / 2);
+const Z_LO = -Math.floor(STARFIELD_DIAMETER / 2);
+const Z_HI =  Math.floor(STARFIELD_DIAMETER / 2);
+
+const STAR_BOUNDARIES = {
+  x: {
+    lo: X_LO,
+    hi: X_HI
+  },
+  y: {
+    lo: Y_LO,
+    hi: Y_HI
+  },
+  z: {
+    lo: Z_LO,
+    hi: Z_HI
+  }
+}
+
+// % volume of total starfield a linkstar may occupy, starting from origin
+const LINKSTAR_FIELD_VOLUME_RATIO = 0.77;
+
+// coordinate plane boundaries for linkstars
+const LINKSTAR_X_LO = Math.floor(X_LO * LINKSTAR_FIELD_VOLUME_RATIO);
+const LINKSTAR_X_HI = Math.floor(X_HI * LINKSTAR_FIELD_VOLUME_RATIO);
+const LINKSTAR_Y_LO = Math.floor(Y_LO * LINKSTAR_FIELD_VOLUME_RATIO);
+const LINKSTAR_Y_HI = Math.floor(Y_HI * LINKSTAR_FIELD_VOLUME_RATIO);
+const LINKSTAR_Z_LO = Math.floor(Z_LO * LINKSTAR_FIELD_VOLUME_RATIO);
+const LINKSTAR_Z_HI = Math.floor(Z_HI * LINKSTAR_FIELD_VOLUME_RATIO);
+
+const LINKSTAR_BOUNDARIES = {
+  x: {
+    lo: LINKSTAR_X_LO,
+    hi: LINKSTAR_X_HI
+  },
+  y: {
+    lo: LINKSTAR_Y_LO,
+    hi: LINKSTAR_Y_HI
+  },
+  z: {
+    lo: LINKSTAR_Z_LO,
+    hi: LINKSTAR_Z_HI
+  }
+};
+
+// Camera
+const CAMERA_FOV = 50;
+const CAMERA_NEAR = 25;
+const CAMERA_FAR = 10000;
+const CAMERA_INITIAL_Z = 1000;
+
 class Starfield extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +77,7 @@ class Starfield extends React.Component {
   componentDidMount() {
     this.setupMouse();
     this.measureWindow();
-    this.setupCamera();
+    this.setupCamera(CAMERA_FOV, CAMERA_NEAR, CAMERA_FAR, CAMERA_INITIAL_Z);
     this.setupScene();
     this.setupRenderer({ divID: 'starfield' });
     this.setEventListeners();
@@ -29,10 +86,10 @@ class Starfield extends React.Component {
   }
 
   setupScene = () => {
-  this.scene = new THREE.Scene();
-  this.starfield = new THREE.Group();
-  this.scene.add(this.starfield);
-  this.setupGeometry();
+    this.scene = new THREE.Scene();
+    this.starfield = new THREE.Group();
+    this.scene.add(this.starfield);
+    this.setupGeometry();
 }
 
   setupGeometry = () => {
@@ -139,22 +196,32 @@ class Starfield extends React.Component {
     return camera;
   }
 
+  addStar = star => {
+    this.starfield.add(star);
+    this.geometry.vertices.push(star.position);
+  }
+
   generateStars = () => {
     const linkStars = this.props.links.map(
       link => new LinkStar(link, this.camera)
     );
 
     linkStars.forEach(linkStar => {
-      this.starfield.add(linkStar);
-      this.geometry.vertices.push(linkStar.position);
+      linkStar.assignRandomCoords(LINKSTAR_BOUNDARIES)
+      this.addStar(linkStar);
       this.starfield.add(linkStar.label);
     });
 
     for (let i = linkStars.length; i < NUM_STARS; i++) {
       let star = new Star();
-      this.starfield.add(star);
+      star.assignRandomCoords(STAR_BOUNDARIES);
+      this.addStar(star);
       this.geometry.vertices.push(star.position);
     }
+
+    // !!! testing
+    this.addOriginStar();
+    // !!! end
 
     this.setState(
       { linkStars }
@@ -167,6 +234,19 @@ class Starfield extends React.Component {
       </div>
     );
   }
+
+  // !!! testing
+  addOriginStar = () => {
+    let star = new Star(new THREE.SpriteCanvasMaterial({
+      color: 'red',
+      program: Star.program
+    }));
+    star.position.x = 0;
+    star.position.y = 0;
+    star.position.z = 0;
+    this.addStar(star);
+  }
+  // !!! end
 }
 
 export default Starfield;

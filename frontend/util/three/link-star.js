@@ -13,14 +13,14 @@ class LinkStar extends Star {
       program: Star.program
   });
 
-  constructor(label, camera, material = LinkStar.material()) {
+  constructor(title, camera, material = LinkStar.material()) {
     super(material);
     this.camera = camera;
-    this.label = this.generateLabel(label);
+    this.title = title;
   }
 
-  generateLabel = text => {
-    const label = ThreeUtil.makeTextSprite(text, LABEL_FONT_SIZE);
+  get label() {
+    const label = ThreeUtil.makeTextSprite(this.title, LABEL_FONT_SIZE);
 
     let scale = label.position.distanceTo(this.camera.position) / 1;
     scale = Math.min(100, Math.max(100, scale));
