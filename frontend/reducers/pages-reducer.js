@@ -4,7 +4,8 @@ import {
   RECEIVE_BACKEND_PAGE,
   RECEIVE_PAGE_LINKS,
   RECEIVE_PAGE_SUMMARY,
-  RECEIVE_PAGE_RANKS
+  RECEIVE_PAGE_RANKS,
+  RECEIVE_USABLE_LINKS
 } from '../actions/page-actions';
 
 export const pagesReducer = (pagesSlice = {}, action) => {
@@ -36,6 +37,11 @@ export const pagesReducer = (pagesSlice = {}, action) => {
     case RECEIVE_PAGE_SUMMARY:
       newSlice = merge({}, pagesSlice);
       newSlice[action.title].summary = action.summary;
+      return newSlice;
+
+    case RECEIVE_USABLE_LINKS:
+      newSlice = merge({}, pagesSlice);
+      newSlice[action.title].usableLinks = action.links;
       return newSlice;
 
     default:

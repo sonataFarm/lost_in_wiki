@@ -16,4 +16,5 @@ const mapDispatchToProps = dispatch => ({
   requestPageLinks: title => dispatch(requestPageLinks(title))
 });
 
+
 export default connect(mapStateToProps, mapDispatchToProps)(StarField);
