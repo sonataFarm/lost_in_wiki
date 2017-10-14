@@ -4,3 +4,13 @@ export const fetchPage = (title) => (
     method: 'GET'
   })
 );
+
+export const fetchPageRanks = titles => (
+  $.ajax({
+    url: '/api/pages/page_ranks',
+    method: 'GET',
+    data: {
+      titles
+    }
+  })
+);
