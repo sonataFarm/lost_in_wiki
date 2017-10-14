@@ -45,8 +45,7 @@ export const receiveImages = (title, images) => ({
 
 export const requestBackendPage = title => dispatch => {
   BackendAPI.fetchPage(title).then(
-    page => dispatch(receiveBackendPage(page)),
-    errors => dispatch(receivePageErrors(errors))
+    page => dispatch(receiveBackendPage(page))
   );
 };
 
