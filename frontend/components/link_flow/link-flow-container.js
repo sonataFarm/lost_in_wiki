@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {
   updateCurrentPage,
   updateFocusPage
-} from '../../actions/game_actions';
+} from '../../actions/game-actions';
 import LinkFlow from './link-flow';
 
 const mapStateToProps = state => ({

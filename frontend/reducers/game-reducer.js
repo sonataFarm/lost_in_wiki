@@ -3,7 +3,7 @@ import {
   UPDATE_CURRENT_PAGE,
   UPDATE_FOCUS_PAGE,
   START_NEW_GAME
-} from '../actions/game_actions.js';
+} from '../actions/game-actions.js';
 
 export const gameReducer = (gameSlice = {}, action) => {
   Object.freeze(gameSlice);
