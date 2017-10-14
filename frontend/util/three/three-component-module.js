@@ -1,5 +1,3 @@
-import TWEEN from '@tweenjs/tween.js';
-
 const measureWindow = function() {
   this.windowWidth      = window.innerWidth;
   this.windowHeight     = window.innerHeight;
@@ -8,7 +6,10 @@ const measureWindow = function() {
 };
 
 const setupCamera = function(fov, near, far, z) {
-  this.camera = new THREE.PerspectiveCamera(fov, this.windowWidth / this.windowHeight, near, far);
+  this.camera = new THREE.PerspectiveCamera(
+    fov, this.windowWidth / this.windowHeight,
+    near, far
+  );
   this.camera.position.z = z;
 };
 
@@ -21,8 +22,8 @@ const setupRenderer = function({ divID }) {
     .appendChild(this.renderer.domElement);
 };
 
-const animate = function() {
-  TWEEN.update();
+const animate = function(time) {
+  TWEEN.update(time);
   this.controls.update();
   requestAnimationFrame(this.animate);
   this.renderNextFrame();
