@@ -3,15 +3,23 @@ import * as WikiAPI from '../util/wiki/wiki-api-util';
 import urlencode from 'urlencode';
 
 export const RECEIVE_BACKEND_PAGE = 'RECEIVE_BACKEND_PAGE';
+export const RECEIVE_PAGE_RANKS = 'RECEIVE_PAGE_RANKS';
 export const RECEIVE_PAGE_ERRORS = 'RECEIVE_PAGE_ERRORS';
 export const RECEIVE_PAGE_LINKS = 'RECEIVE_PAGE_LINKS';
 export const RECEIVE_PAGE_SUMMARY = 'RECEIVE_PAGE_SUMMARY';
 export const RECEIVE_MAIN_IMAGE = 'RECEIVE_MAIN_IMAGE';
 export const RECEIVE_IMAGES = 'RECEIVE_IMAGES';
+export const GET_USABLE_LINKS = 'GET_USABLE_LINKS';
 
 export const receiveBackendPage = (page) => ({
   type: RECEIVE_BACKEND_PAGE,
   page
+});
+
+export const receivePageRanks = (pages) => ({
+  //pages is an array, where each element is a hash with a title and a page_rank
+  type: RECEIVE_PAGE_RANKS,
+  pages
 });
 
 export const receivePageErrors = (errors) => ({
@@ -43,16 +51,30 @@ export const receiveImages = (title, images) => ({
   images
 });
 
+export const getUsableLinks = (title, difficulty) => ({
+  type: GET_USABLE_LINKS,
+  title,
+  difficulty
+});
+
 export const requestBackendPage = title => dispatch => {
   BackendAPI.fetchPage(title).then(
-    page => dispatch(receiveBackendPage(page)),
+    page => dispatch(receiveBackendPage(page))
+  );
+};
+
+export const requestPageRanks = titles => dispatch => {
+  BackendAPI.fetchPageRanks(titles).then(
+    pages => dispatch(receivePageRanks(pages)),
     errors => dispatch(receivePageErrors(errors))
   );
 };
 
 export const requestPageLinks = title => dispatch => {
   WikiAPI.fetchLinks(title).then(
-    links => dispatch(receivePageLinks(title,links)),
+    links => dispatch(receivePageLinks(title,
+      links.map(link => decodeIdentifier(link))
+    )),
     errors => dispatch(receivePageErrors(errors))
   );
 };
@@ -77,6 +99,7 @@ export const requestImages = title => dispatch => {
     errors => dispatch(receivePageErrors(errors))
   );
 };
+
 
 
 const encodeIdentifier = (title) => {

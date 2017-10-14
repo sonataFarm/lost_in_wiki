@@ -24,11 +24,15 @@ window.fetchPage = fetchPage;
 import {
   requestBackendPage,
   requestPageLinks,
-  requestPageSummary
+  requestPageSummary,
+  requestPageRanks,
+  getUsableLinks
 } from './actions/page-actions';
 
 window.requestBackendPage = requestBackendPage;
 window.requestPageLinks = requestPageLinks;
 window.requestPageSummary = requestPageSummary;
+window.requestPageRanks = requestPageRanks;
+window.getUsableLinks = getUsableLinks;
 
 // !!!

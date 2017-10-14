@@ -9,4 +9,10 @@ class Api::PagesController < ApplicationController
       render "api/pages/show", status: 404
     end
   end
+
+  def page_ranks
+    titles = params.require(:titles)
+    @pages = Page.select(:title, :page_rank).where(title: titles)
+    render "api/pages/page_ranks"
+  end
 end
