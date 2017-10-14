@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.store = store;
   const root = document.getElementById('root');
   ReactDOM.render(
-    <Provider>
+    <Provider store={store}>
       <Root store={store}/>
     </Provider>
     , root);
