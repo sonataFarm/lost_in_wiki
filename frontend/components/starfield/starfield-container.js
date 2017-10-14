@@ -4,7 +4,7 @@ import {
   requestPageLinks,
   getUsableLinks
 } from '../../actions/page-actions.js';
-import StarField from './star-field';
+import StarField from './starfield';
 
 
 
