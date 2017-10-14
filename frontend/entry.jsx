@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Provider store={store}>
       <Root store={store}/>
-    </Provider>
-    , root);
+    </Provider>,
+    root);
 });
 
 // !!! testing and debugging
