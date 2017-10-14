@@ -16,7 +16,7 @@ export const receiveBackendPage = (page) => ({
 });
 
 export const receivePageRanks = (pages) => ({
-  //pages is a hash with titles as keys and ranks as values
+  //pages is an array, where each element is a hash with a title and a page_rank
   type: RECEIVE_PAGE_RANKS,
   pages
 });
@@ -53,6 +53,12 @@ export const receiveImages = (title, images) => ({
 export const requestBackendPage = title => dispatch => {
   BackendAPI.fetchPage(title).then(
     page => dispatch(receiveBackendPage(page))
+  );
+};
+
+export const requestPageRanks = titles => dispatch => {
+  BackendAPI.fetchPageRanks(titles).then(
+    pages => dispatch(receivePageRanks(pages))
   );
 };
 
