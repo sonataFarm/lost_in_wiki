@@ -3,6 +3,7 @@ import * as WikiAPI from '../util/wiki/wiki-api-util';
 import urlencode from 'urlencode';
 
 export const RECEIVE_BACKEND_PAGE = 'RECEIVE_BACKEND_PAGE';
+export const RECEIVE_PAGE_RANKS = 'RECEIVE_PAGE_RANKS';
 export const RECEIVE_PAGE_ERRORS = 'RECEIVE_PAGE_ERRORS';
 export const RECEIVE_PAGE_LINKS = 'RECEIVE_PAGE_LINKS';
 export const RECEIVE_PAGE_SUMMARY = 'RECEIVE_PAGE_SUMMARY';
@@ -12,6 +13,12 @@ export const RECEIVE_IMAGES = 'RECEIVE_IMAGES';
 export const receiveBackendPage = (page) => ({
   type: RECEIVE_BACKEND_PAGE,
   page
+});
+
+export const receivePageRanks = (pages) => ({
+  //pages is a hash with titles as keys and ranks as values
+  type: RECEIVE_PAGE_RANKS,
+  pages
 });
 
 export const receivePageErrors = (errors) => ({
