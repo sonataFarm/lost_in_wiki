@@ -1,9 +1,7 @@
 export const findUsableLinks = (pagesSlice, title, difficulty) => {
   //Returns an array of page titles of links the player is allowed
   //to use.
-  Object.freeze(pagesSlice);
-  const allLinks = pagesSlice[title].links;
-  let newLinks = allLinks.filter( (link) => (
+  var newLinks = pagesSlice[title].links.filter( (link) => (
     pagesSlice[link] && pagesSlice[link].pageRank < difficulty
   ));
   newLinks.sort(

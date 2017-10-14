@@ -8,7 +8,7 @@ import {
   GET_USABLE_LINKS
 } from '../actions/page-actions';
 
-import {findUsableLinks} from '../links_util.js';
+import {findUsableLinks} from '../util/links-util.js';
 
 export const pagesReducer = (pagesSlice = {}, action) => {
   Object.freeze(pagesSlice);
@@ -44,8 +44,9 @@ export const pagesReducer = (pagesSlice = {}, action) => {
     case GET_USABLE_LINKS:
       newSlice = merge({}, pagesSlice);
       let usableLinks = findUsableLinks(
-        action.title, pagesSlice, action.difficulty
+        newSlice, action.title, action.difficulty
       );
+      newSlice[action.title].usableLinks = usableLinks;
       return newSlice;
 
     default:

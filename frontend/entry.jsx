@@ -25,12 +25,14 @@ import {
   requestBackendPage,
   requestPageLinks,
   requestPageSummary,
-  requestPageRanks
+  requestPageRanks,
+  getUsableLinks
 } from './actions/page-actions';
 
 window.requestBackendPage = requestBackendPage;
 window.requestPageLinks = requestPageLinks;
 window.requestPageSummary = requestPageSummary;
 window.requestPageRanks = requestPageRanks;
+window.getUsableLinks = getUsableLinks;
 
 // !!!
