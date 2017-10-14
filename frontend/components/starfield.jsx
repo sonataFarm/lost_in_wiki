@@ -1,73 +1,56 @@
-/* !!! TODO: removeEventListeners
-
-mapped state props are {
-  links,
-  currentPage,
-  focusedLink
-}
-
-- need to do:
-  - slow rotate to focused link
-  - fast rotate/zoom to selected link
-  - coloring
-
-- want to do:
-  - hover effect
-
-*/
-
 import React from 'react';
+import ComponentModule from '../util/three/three-component-module.js';
 import threeUtil from '../util/three/three-util';
 import Star from '../util/three/star';
 import LinkStar from '../util/three/link-star';
 
 const NUM_STARS = 500;
 
-class StarField extends React.Component {
+class Starfield extends React.Component {
   constructor(props) {
     super(props);
 
-    [this.mouseX, this.mouseY] = [0, 0];
-    this.windowHalfX = window.innerWidth / 2;
-    this.windowHalfY = window.innerHeight / 2;
-
-    this.camera = this.initializeCamera();
-    this.scene = new THREE.Scene();
-
-    this.group = new THREE.Group();
-    this.scene.add(this.group);
-
-    this.geometry = new THREE.Geometry();
-
-    this.line = new THREE.Line(
-      this.geometry,
-      new THREE.LineBasicMaterial({
-        color: 0xffffff,
-        opacity: 0.25
-      })
-    );
-
-    this.group.add(this.line);
-
-    this.renderer = new THREE.CanvasRenderer();
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.measureWindow = ComponentModule.measureWindow.bind(this);
+    this.setupMouse = ComponentModule.setupMouse.bind(this);
+    this.setupCamera = ComponentModule.setupCamera.bind(this);
+    this.setupRenderer = ComponentModule.setupRenderer.bind(this);
+    this.animate = ComponentModule.animate.bind(this);
   }
 
   componentDidMount() {
-    document.getElementById('starfield').appendChild(this.renderer.domElement);
+    this.setupMouse();
+    this.measureWindow();
+    this.setupCamera();
+    this.setupScene();
+    this.setupRenderer({ divID: 'starfield' });
     this.setEventListeners();
-    this.generateStars(this.props.links);
+    this.generateStars();
     this.animate();
   }
 
-  componentWillReceiveProps(nextProps) {
-    generateStars(nextProps.links);
-  }
+  setupScene = () => {
+  this.scene = new THREE.Scene();
+  this.starfield = new THREE.Group();
+  this.scene.add(this.starfield);
+  this.setupGeometry();
+}
 
-  animate = () => {
-    requestAnimationFrame(this.animate);
-    this.renderNextFrame();
+setupGeometry = () => {
+  this.geometry = new THREE.Geometry();
+
+  this.line = new THREE.Line(
+    this.geometry,
+    new THREE.LineBasicMaterial({
+      color: 0xffffff,
+      opacity: 0.25
+    })
+  );
+
+  this.starfield.add(this.line);
+}
+
+  componentWillReceiveProps(nextProps) {
+    generateStars();
   }
 
   renderNextFrame = () => {
@@ -98,23 +81,23 @@ class StarField extends React.Component {
   }
 
   onDocumentMouseMove = event => {
-    this.mouseX = event.clientX - this.windowHalfX / 2;
-    this.mouseY = event.clientY - this.windowHalfY / 2;
+    this.mouseX = event.clientX - this.windowHalfWidth / 2;
+    this.mouseY = event.clientY - this.windowHalfHeight / 2;
   }
 
   onDocumentTouchStart = event => {
     if (event.touches.length === 1) {
       event.preventDefault();
-      this.mouseX = event.touches[0].pageX - this.windowHalfX;
-      this.mouseY = event.touches[0].pageY - this.windowHalfY;
+      this.mouseX = event.touches[0].pageX - this.windowHalfWidth;
+      this.mouseY = event.touches[0].pageY - this.windowHalfHeight;
     }
   }
 
   onDocumentTouchMove = event => {
     if (event.touches.length === 1) {
       event.preventDefault();
-      this.mouseX = event.touches[0].pageX - this.windowHalfX;
-      this.mouseY = event.touches[0].pageY - this.windowHalfY;
+      this.mouseX = event.touches[0].pageX - this.windowHalfWidth;
+      this.mouseY = event.touches[0].pageY - this.windowHalfHeight;
     }
   }
 
@@ -126,7 +109,7 @@ class StarField extends React.Component {
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, this.camera);
 
-    const intersects = raycaster.intersectObjects(this.group.children);
+    const intersects = raycaster.intersectObjects(this.starfield.children);
     // Change color if particle clicked
     if (intersects.length > 0 && intersects[0].object.material.opacity == 1) {
         intersects[0].object.material.color.set(0xff0000);
@@ -134,8 +117,8 @@ class StarField extends React.Component {
   }
 
   onWindowResize = () => {
-    this.windowHalfX = window.innerWidth;
-    this.windowHalfY = window.innerHeight;
+    this.windowHalfWidth = window.innerWidth;
+    this.windowHalfHeight = window.innerHeight;
 
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
@@ -155,14 +138,14 @@ class StarField extends React.Component {
     );
 
     linkStars.forEach(linkStar => {
-      this.group.add(linkStar);
+      this.starfield.add(linkStar);
       this.geometry.vertices.push(linkStar.position);
-      this.group.add(linkStar.label);
+      this.starfield.add(linkStar.label);
     });
 
     for (let i = linkStars.length; i < NUM_STARS; i++) {
       let star = new Star();
-      this.group.add(star);
+      this.starfield.add(star);
       this.geometry.vertices.push(star.position);
     }
 
@@ -179,4 +162,22 @@ class StarField extends React.Component {
   }
 }
 
-export default StarField;
+export default Starfield;
+
+
+/* !!! TODO: removeEventListeners
+
+mapped state props are {
+  links,
+  currentPage,
+  focusedLink
+}
+
+- need to do:
+  - slow rotate to focused link
+  - fast rotate/zoom to selected link
+  - coloring
+
+- want to do:
+  - hover effect
+*/

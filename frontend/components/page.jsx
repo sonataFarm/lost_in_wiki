@@ -17,7 +17,6 @@ const titles = [
   'Flowering Plant',
   'Torture',
   'San Francisco',
-
 ];
 
 const links = titles.map(
