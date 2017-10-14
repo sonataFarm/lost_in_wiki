@@ -1,4 +1,5 @@
 import React from 'react';
+import TWEEN from '@tweenjs/tween.js';
 import ComponentModule from '../../util/three/three-component-module.js';
 import threeUtil from '../../util/three/three-util';
 import Star from '../../util/three/star';
@@ -6,7 +7,7 @@ import LinkStar from '../../util/three/link-star';
 
 const NUM_STARS = 500;
 
-const STARFIELD_DIAMETER = 2000;
+const STARFIELD_DIAMETER = 4000;
 
 // coordinate plane boundaries for stars
 const X_LO = -Math.floor(STARFIELD_DIAMETER / 2);
@@ -32,7 +33,7 @@ const STAR_BOUNDARIES = {
 }
 
 // % volume of total starfield a linkstar may occupy, starting from origin
-const LINKSTAR_FIELD_VOLUME_RATIO = 0.77;
+const LINKSTAR_FIELD_VOLUME_RATIO = 0.5;
 
 // coordinate plane boundaries for linkstars
 const LINKSTAR_X_LO = Math.floor(X_LO * LINKSTAR_FIELD_VOLUME_RATIO);
@@ -72,17 +73,23 @@ class Starfield extends React.Component {
     this.setupCamera = ComponentModule.setupCamera.bind(this);
     this.setupRenderer = ComponentModule.setupRenderer.bind(this);
     this.animate = ComponentModule.animate.bind(this);
+    this.setupControls = ComponentModule.setupControls.bind(this);
   }
 
   componentDidMount() {
+    this.setup();
+    this.generateStars();
+    this.setEventListeners();
+    this.animate();
+  }
+
+  setup = () => {
     this.setupMouse();
     this.measureWindow();
     this.setupCamera(CAMERA_FOV, CAMERA_NEAR, CAMERA_FAR, CAMERA_INITIAL_Z);
     this.setupScene();
     this.setupRenderer({ divID: 'starfield' });
-    this.setEventListeners();
-    this.generateStars();
-    this.animate();
+    this.setupControls();
   }
 
   setupScene = () => {
@@ -134,14 +141,25 @@ class Starfield extends React.Component {
   }
 
   onKeyDown = event => {
-    if (event.key === 'ArrowUp') {
-      this.camera.position.z -= 50;
-    } else if (event.key === 'ArrowDown') {
-      this.camera.position.z += 50;
-    }
+    event.preventDefault();
 
     console.log(event.key);
     console.log(this.camera.position)
+
+    const destinationVector = new THREE.Vector3(0, 0, 0);
+
+    const destinationCoords = {
+      x: destinationVector.x,
+      y: destinationVector.y,
+      z: destinationVector.z
+    };
+
+    this.controls.target = destinationVector;
+
+    var tween2 = new TWEEN.Tween(this.camera.position)
+      .to(destinationCoords)
+      .easing(TWEEN.Easing.Linear.None)
+      .start();
   }
 
   onDocumentMouseMove = event => {
@@ -164,19 +182,58 @@ class Starfield extends React.Component {
       this.mouseY = event.touches[0].pageY - this.windowHalfHeight;
     }
   }
+  //
+  // onDocumentMouseDown = event => {
+  //   const mouse = new THREE.Vector2();
+  //   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  //   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  //
+  //   const raycaster = new THREE.Raycaster();
+  //   raycaster.setFromCamera(mouse, this.camera);
+  //
+  //   const intersects = raycaster.intersectObjects(this.starfield.children);
+  //   // Change color if particle clicked
+  //   if (intersects.length > 0 && intersects[0].object.material.opacity == 1) {
+  //       intersects[0].object.material.color.set(0xff0000);
+  //
+  //   }
+  // }
 
-  onDocumentMouseDown = event => {
-    const mouse = new THREE.Vector2();
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    const raycaster = new THREE.Raycaster();
+  onDocumentMouseDown = (event) => {
+    // get mouse coords
+    var mouse = new THREE.Vector2();
+    mouse.x = (event.clientX / this.windowWidth) * 2 - 1;
+    mouse.y = -(event.clientY / this.windowHeight) * 2 + 1;
+
+    // work out which objects the mouse is over
+    var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, this.camera);
 
-    const intersects = raycaster.intersectObjects(this.starfield.children);
+    var intersects = raycaster.intersectObjects( this.starfield.children );
     // Change color if particle clicked
     if (intersects.length > 0 && intersects[0].object.material.opacity == 1) {
-        intersects[0].object.material.color.set(0xff0000);
+      intersects[0].object.material.color.set( 0xff0000 );
+
+      // interesting stuff starts here...
+      const controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
+
+
+      var vector = new THREE.Vector3(mouse.x, mouse.y, -1 );
+      vector.unproject(this.camera);
+      vector.sub(this.camera.position);
+
+      var cameraPosition = new THREE.Vector3(this.camera.position.x, this.camera.position.y, this.camera.position.z);
+      var intersectPosition = new THREE.Vector3(intersects[0].object.position.x, intersects[0].object.position.y , intersects[0].object.position.z );
+
+      var zoomPos = intersectPosition.distanceTo( cameraPosition );
+      this.camera.position.addVectors(this.camera.position, vector.setLength(zoomPos));
+      controls.target.addVectors(controls.target, vector.setLength(zoomPos));
+
+      var rotation_matrix = new THREE.Matrix4();
+      rotation_matrix.lookAt(this.camera, intersects[0].object.position, this.camera.up);
+      var target_rotation = new THREE.Euler(0,0,0,"XYZ");
+      target_rotation.setFromRotationMatrix(rotation_matrix);
     }
   }
 

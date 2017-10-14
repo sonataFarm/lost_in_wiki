@@ -1,3 +1,5 @@
+import TWEEN from '@tweenjs/tween.js';
+
 const measureWindow = function() {
   this.windowWidth      = window.innerWidth;
   this.windowHeight     = window.innerHeight;
@@ -20,6 +22,8 @@ const setupRenderer = function({ divID }) {
 };
 
 const animate = function() {
+  TWEEN.update();
+  this.controls.update();
   requestAnimationFrame(this.animate);
   this.renderNextFrame();
 };
@@ -28,10 +32,19 @@ const setupMouse = function() {
   [this.mouseX, this.mouseY] = [0, 0];
 }
 
+const setupControls = function() {
+  this.controls = new THREE.OrbitControls(
+    this.camera,
+    this.renderer.domElement,
+  );
+  this.controls.target = new THREE.Vector3(0, 10, 0);
+}
+
 export default {
   animate,
   measureWindow,
   setupCamera,
   setupRenderer,
-  setupMouse
+  setupMouse,
+  setupControls
 }
