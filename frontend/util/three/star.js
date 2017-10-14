@@ -1,4 +1,5 @@
 const STAR_COLOR = 'white';
+import _ from 'lodash';
 
 class Star extends THREE.Sprite {
 
@@ -15,13 +16,14 @@ class Star extends THREE.Sprite {
 
   constructor(material = Star.material()) {
     super(material);
-    this.assignRandomStarCoords();
   }
 
-  assignRandomStarCoords = () => {
-    this.position.x = Math.random() * 2000 - 1000;
-    this.position.y = Math.random() * 2000 - 1000;
-    this.position.z = Math.random() * 2000 - 1000;
+  assignRandomCoords = boundaries => {
+    const { x, y, z } = boundaries;
+
+    this.position.x = _.random(x.lo, x.hi);
+    this.position.y = _.random(y.lo, y.hi);
+    this.position.z = _.random(z.lo, z.hi);
     this.scale.x = this.scale.y = Math.random() * 20 + 10;
   }
 }

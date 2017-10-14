@@ -19,4 +19,5 @@
 //= require orbit-controls.js
 //= require stats.min.js
 //= require dat.gui.min.js
+//= require tween.js
 //= require_tree .

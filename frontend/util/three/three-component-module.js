@@ -5,9 +5,12 @@ const measureWindow = function() {
   this.windowHalfHeight = window.innerHeight / 2;
 };
 
-const setupCamera = function() {
-  this.camera = new THREE.PerspectiveCamera(50, this.windowWidth / this.windowHeight, 1, 10000);
-  this.camera.position.z = 1000;
+const setupCamera = function(fov, near, far, z) {
+  this.camera = new THREE.PerspectiveCamera(
+    fov, this.windowWidth / this.windowHeight,
+    near, far
+  );
+  this.camera.position.z = z;
 };
 
 const setupRenderer = function({ divID }) {
@@ -19,7 +22,9 @@ const setupRenderer = function({ divID }) {
     .appendChild(this.renderer.domElement);
 };
 
-const animate = function() {
+const animate = function(time) {
+  TWEEN.update(time);
+  this.controls.update();
   requestAnimationFrame(this.animate);
   this.renderNextFrame();
 };
@@ -28,10 +33,19 @@ const setupMouse = function() {
   [this.mouseX, this.mouseY] = [0, 0];
 }
 
+const setupControls = function() {
+  this.controls = new THREE.OrbitControls(
+    this.camera,
+    this.renderer.domElement,
+  );
+  this.controls.target = new THREE.Vector3(0, 10, 0);
+}
+
 export default {
   animate,
   measureWindow,
   setupCamera,
   setupRenderer,
-  setupMouse
+  setupMouse,
+  setupControls
 }
