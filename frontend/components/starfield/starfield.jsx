@@ -70,8 +70,8 @@ class Starfield extends React.Component {
 
   componentDidMount() {
     this.setup();
-    this.getUsableLinks(this.state.currentPage);
-
+    // this.getUsableLinks(this.state.currentPage);
+    this.generateStars();
     this.setEventListeners();
     this.animate();
   }
@@ -81,7 +81,7 @@ class Starfield extends React.Component {
       this.handleCurrentPageChange();
     } else if (nextProps.currentPage.usableLinks !== this.props.currentPage.usableLinks) {
       this.generateStars();
-      this.setFocusStar(this.state.focusPage);
+      // this.setFocusStar(this.state.focusPage);
     } else if (nextProps.game.focusPage !== this.props.game.focusPage) {
       this.handleFocusPageChange(nextprops.game.focusPage);
     }
@@ -150,9 +150,9 @@ class Starfield extends React.Component {
   }
 
   setEventListeners = () => {
-    // document.addEventListener('mousemove', this.onDocumentMouseMove, false);
-    // document.addEventListener('touchstart', this.onDocumentTouchStart, false);
-    // document.addEventListener('touchmove', this.onDocumentTouchMove, false);
+    document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+    document.addEventListener('touchstart', this.onDocumentTouchStart, false);
+    document.addEventListener('touchmove', this.onDocumentTouchMove, false);
     document.addEventListener('mousedown', this.onDocumentMouseDown, true);
     document.addEventListener('keydown', this.onKeyDown.bind(this));
 		window.addEventListener('resize', this.onWindowResize, false);
@@ -246,7 +246,7 @@ class Starfield extends React.Component {
         .to(newCameraPosition)
         .easing(TWEEN.Easing.Linear.None)
         .start();
-      debugger;
+
       const controlsTargetVector = new THREE.Vector3(controls.target);
       const newControlsTarget = controlsTargetVector.addVectors(controls.target, vector.setLength(zoomPos));
 

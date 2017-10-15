@@ -6,6 +6,7 @@ const PROGRAM = context => {
   context.arc(0, 0, 0.5, 0, Math.PI * 2, false);
   context.fill();
 };
+
 const MATERIAL = new THREE.SpriteCanvasMaterial({
     color: new THREE.Color(COLOR),
     program: PROGRAM

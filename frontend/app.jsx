@@ -11,8 +11,8 @@ import hitlerLinks from './util/hitler-links';
 
 const App = props => (
   <Switch>
-    <Route exact path='/' render={() => <Starfield links={ _.shuffle(hitlerLinks).slice(0, 30) } />}/>
-    <Route exact path='dev/starfield' render={() => <Starfield links={ _.shuffle(hitlerLinks).slice(0, 30) } />}/>
+    <Route exact path='/' render={() => <StarfieldContainer />}/>
+    <Route exact path='/dev/starfield' render={() => <Starfield links={ _.shuffle(hitlerLinks).slice(0, 30) } />}/>
     <Route exact path='/dev/starfieldContainer' render={ () => <StarfieldContainer /> } />
     <Route path='/linkFlow' component={ LinkFlowContainer } />
   </Switch>
