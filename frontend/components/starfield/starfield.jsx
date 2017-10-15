@@ -69,7 +69,6 @@ class Starfield extends React.Component {
   }
 
   componentDidMount() {
-    debugger;
     this.setup();
     this.getUsableLinks(this.state.currentPage);
 
