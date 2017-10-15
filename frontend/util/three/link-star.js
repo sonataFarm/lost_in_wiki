@@ -1,25 +1,41 @@
 import ThreeUtil from './three-util';
 import Star from './star';
 
-const LINK_STAR_COLOR = 'blue';
+const COLOR = 'blue';
+const PROGRAM = context => {
+  context.beginPath();
+  context.arc(0, 0, 0.5, 0, Math.PI * 2, false);
+  context.fill();
+};
+const MATERIAL = new THREE.SpriteCanvasMaterial({
+    color: COLOR,
+    program: PROGRAM
+});
+
+const FOCUS_COLOR = 'red';
+const FOCUS_PROGRAM = context => {
+  context.beginPath();
+  context.arc(0, 0, 0.75, 0, Math.PI * 2, false);
+  context.fill();
+};
+const FOCUS_MATERIAL = new THREE.SpriteCanvasMaterial({
+  color: FOCUS_COLOR,
+  program: FOCUS_PROGRAM
+});
+
 const LABEL_FONT_SIZE = 18;
 const LABEL_X_OFFSET = 50;
 const LABEL_Y_OFFSET = 0;
 
-
 class LinkStar extends Star {
-  static material = () => new THREE.SpriteCanvasMaterial({
-      color: new THREE.Color(LINK_STAR_COLOR),
-      program: Star.program
-  });
 
-  constructor(title, camera, material = LinkStar.material()) {
+  constructor(title, camera, material = MATERIAL) {
     super(material);
     this.camera = camera;
     this.title = title;
   }
 
-  get label() {
+  createLabel = () => {
     const label = ThreeUtil.makeTextSprite(this.title, LABEL_FONT_SIZE);
 
     let scale = label.position.distanceTo(this.camera.position) / 1;
@@ -32,7 +48,15 @@ class LinkStar extends Star {
       this.position.z
     );
 
-    return label;
+    this.label = label;
+  }
+
+  focus = () => {
+    this.material = FOCUS_MATERIAL;
+  }
+
+  unfocus = () => {
+    this.material = MATERIAL;
   }
 }
 

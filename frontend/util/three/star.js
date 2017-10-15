@@ -1,20 +1,18 @@
-const STAR_COLOR = 'white';
 import _ from 'lodash';
 
+const COLOR = 'white';
+const PROGRAM = context => {
+  context.beginPath();
+  context.arc(0, 0, 0.5, 0, Math.PI * 2, false);
+  context.fill();
+};
+const MATERIAL = new THREE.SpriteCanvasMaterial({
+    color: new THREE.Color(COLOR),
+    program: PROGRAM
+});
+
 class Star extends THREE.Sprite {
-
-  static program = context => {
-    context.beginPath();
-    context.arc(0, 0, 0.5, 0, Math.PI * 2, false);
-    context.fill();
-  };
-
-  static material = () => new THREE.SpriteCanvasMaterial({
-      color: new THREE.Color(STAR_COLOR),
-      program: Star.program
-  });
-
-  constructor(material = Star.material()) {
+  constructor(material = MATERIAL) {
     super(material);
   }
 

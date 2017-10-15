@@ -69,11 +69,48 @@ class Starfield extends React.Component {
   }
 
   componentDidMount() {
+    debugger;
     this.setup();
+
     this.generateStars();
+    this.setFocusStar(this.state.focusPage);
+
     this.setEventListeners();
     this.animate();
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.game.currentPage !== this.props.game.currentPage) {
+      // handle refocus
+    } else if (nextProps.game.focusPage !== this.props.game.focusPage) {
+      this.handleFocusPageChange(nextprops.game.focusPage);
+    } else if(nextProps.usableLinks !== this.props.usableLinks) {
+      // render stars
+    }
+  }
+
+  handleFocusPageChange = nextFocusPage => {
+    this.state.focusStar.unfocus();
+    this.setFocusStar(nextFocusPage);
+  }
+
+  setFocusStar = focusPage => {
+    const focusStar = this.findStarByTitle(nextFocusPage);
+    this.setState({ focusStar });
+    focusStar.focus();
+  }
+
+  findStarByTitle = title => {
+    this.state.linkStars.find(star => star.title === title)
+  }
+
+  zoomToFocusStar = () => {
+    // TODO
+  };
+
+  highlightFocusStar = () => {
+    // TODO
+  };
 
   setup = () => {
     this.setupMouse();
@@ -88,6 +125,7 @@ class Starfield extends React.Component {
     window.s = this;
     // !!! end
   }
+
 
   setupScene = () => {
     this.scene = new THREE.Scene();
@@ -109,33 +147,6 @@ class Starfield extends React.Component {
 
     this.starfield.add(this.line);
   }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.game.currentPage !== this.props.game.currentPage) {
-      // handle refocus
-    } else if (nextProps.game.focusPage !== this.props.game.focusPage) {
-      this.handleFocusPageChange(nextprops.game.focusPage);
-    } else if(nextProps.usableLinks !== this.props.usableLinks) {
-      // render stars
-    }
-  }
-
-  handleFocusPageChange = focusPage => {
-    this.focusStar = this.state.linkStars.filter(
-      star => star.title === focusPage.title
-    )[0];
-
-    this.zoomToFocusStar();
-    this.highlightFocusStar();
-  }
-
-  zoomToFocusStar = () => {
-    // TODO
-  };
-
-  highlightFocusStar = () => {
-    // TODO
-  };
 
   renderNextFrame = () => {
     this.camera.position.x += (this.mouseX - this.camera.position.x) * 1;
@@ -318,6 +329,8 @@ class Starfield extends React.Component {
     linkStars.forEach(linkStar => {
       linkStar.assignRandomCoords(LINKSTAR_BOUNDARIES);
       this.addStar(linkStar);
+
+      linkStar.createLabel();
       this.starfield.add(linkStar.label);
     });
 
