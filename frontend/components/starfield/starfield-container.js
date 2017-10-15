@@ -6,8 +6,6 @@ import {
 } from '../../actions/page-actions.js';
 import StarField from './starfield';
 
-
-
 const mapStateToProps = state => ({
   pages: state.pages,
   currentPage: state.pages[state.game.currentPage],
