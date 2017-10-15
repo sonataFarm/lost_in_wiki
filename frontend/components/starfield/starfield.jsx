@@ -71,9 +71,7 @@ class Starfield extends React.Component {
   componentDidMount() {
     debugger;
     this.setup();
-
-    this.generateStars();
-    this.setFocusStar(this.state.focusPage);
+    this.getUsableLinks(this.state.currentPage);
 
     this.setEventListeners();
     this.animate();
@@ -81,12 +79,17 @@ class Starfield extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.game.currentPage !== this.props.game.currentPage) {
-      // handle refocus
+      this.handleCurrentPageChange();
+    } else if (nextProps.currentPage.usableLinks !== this.props.currentPage.usableLinks) {
+      this.generateStars();
+      this.setFocusStar(this.state.focusPage);
     } else if (nextProps.game.focusPage !== this.props.game.focusPage) {
       this.handleFocusPageChange(nextprops.game.focusPage);
-    } else if(nextProps.usableLinks !== this.props.usableLinks) {
-      // render stars
     }
+  }
+
+  handleCurrentPageChange = () => {
+    // TODO
   }
 
   handleFocusPageChange = nextFocusPage => {
@@ -103,14 +106,6 @@ class Starfield extends React.Component {
   findStarByTitle = title => {
     this.state.linkStars.find(star => star.title === title)
   }
-
-  zoomToFocusStar = () => {
-    // TODO
-  };
-
-  highlightFocusStar = () => {
-    // TODO
-  };
 
   setup = () => {
     this.setupMouse();

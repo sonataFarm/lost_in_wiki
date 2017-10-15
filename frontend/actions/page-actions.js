@@ -100,8 +100,6 @@ export const requestImages = title => dispatch => {
   );
 };
 
-
-
 const encodeIdentifier = (title) => {
   // encode url identifier from page title
   return urlencode.encode(title.replace(/\s/g, '_'));
