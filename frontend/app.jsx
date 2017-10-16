@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import LinkFlowContainer from './components/link_flow/link-flow-container';
 import StarfieldContainer from './components/starfield/starfield-container';
 import Starfield from './components/starfield/starfield';
 
@@ -11,10 +10,9 @@ import hitlerLinks from './util/hitler-links';
 
 const App = props => (
   <Switch>
-    <Route exact path='/' render={() => <StarfieldContainer />}/>
     <Route exact path='/dev/starfield' render={() => <Starfield links={ _.shuffle(hitlerLinks).slice(0, 30) } />}/>
-    <Route exact path='/dev/starfieldContainer' render={ () => <StarfieldContainer /> } />
-    <Route path='/linkFlow' component={ LinkFlowContainer } />
+    <Route exact path='/dev/starfield-container' render={ () => <StarfieldContainer /> } />
+    <Route exact path='/' render={() => "Route does not exist - see valid routes in frontend/app.jsx"}/>
   </Switch>
 );
 
