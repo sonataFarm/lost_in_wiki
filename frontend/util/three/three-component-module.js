@@ -1,3 +1,5 @@
+// methods to be set on and bound to a threeJS component
+
 const measureWindow = function() {
   this.windowWidth      = window.innerWidth;
   this.windowHeight     = window.innerHeight;
@@ -23,6 +25,8 @@ const setupRenderer = function({ divID }) {
 };
 
 const animate = function(time) {
+  /// TWEEN.update and this.controls.update are remnants
+  /// of Nate's camera animation experiments
   TWEEN.update(time);
   this.controls.update();
   requestAnimationFrame(this.animate);

@@ -17,6 +17,7 @@ export const gameReducer = (gameSlice = {}, action) => {
         focusPage: action.originTitle,
         difficulty: action.difficulty,
         won: false,
+        playing: true
       };
       return newSlice;
 
