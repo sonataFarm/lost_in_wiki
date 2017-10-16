@@ -52,7 +52,7 @@ class Star extends THREE.Sprite {
     this.refreshMaterial.bind(this)();
   }
 
-  unMakeLink() {
+  unmakeLink() {
     this.state.isLink = false;
     this.refreshMaterial.bind(this)();
   }
