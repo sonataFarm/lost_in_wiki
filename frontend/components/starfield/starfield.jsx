@@ -226,7 +226,7 @@ class Starfield extends React.Component {
     );
   }
 
-  // !!! testing
+  // !!! ALL TESTING AND EXPERIMENTAL METHODS BELOW
   addTestStar = () => {
     let star = new Star(new THREE.SpriteCanvasMaterial({
       color: 'red',
