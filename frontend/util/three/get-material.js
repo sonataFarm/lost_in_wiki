@@ -1,4 +1,6 @@
-
+//This code handles the material properties of the stars
+//Avoid global variables and hard coding if at all possible
+//Do not mutate state
 
 const getProgram = state => context => {
   const radius = getRadius(state);
@@ -19,7 +21,8 @@ const getColor = state => {
 };
 
 
-export const getMaterial = state => {
+const getMaterial = state => {
+  Object.freeze(state);
   const program = getProgram(state);
   const color = getColor(state);
   const material = THREE.SpriteCanvasMaterial({
@@ -28,3 +31,5 @@ export const getMaterial = state => {
   });
   return material;
 };
+
+export default getMaterial;

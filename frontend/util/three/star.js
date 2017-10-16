@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { getMaterial } from './get-material';
+import getMaterial from './get-material';
 
 const LABEL_FONT_SIZE = 18;
 const LABEL_X_OFFSET  = 50;
@@ -17,10 +17,6 @@ class Star extends THREE.Sprite {
     super(this.material);
   }
 
-  material(color) {
-
-  }
-
   assignRandomCoords(boundaries) {
     const { x, y, z } = boundaries;
 
@@ -33,7 +29,7 @@ class Star extends THREE.Sprite {
   createLabel() {
     const label = ThreeUtil.makeTextSprite(this.title, LABEL_FONT_SIZE);
 
-    let scale = label.position.distanceTo(this.camera.position) / ONE;
+    let scale = label.position.distanceTo(this.camera.position);
     scale = Math.min(100, Math.max(100, scale));
 
     label.scale.set(scale, scale, scale);
@@ -46,12 +42,28 @@ class Star extends THREE.Sprite {
     this.label = label;
   }
 
+  makeLink() {
+    this.state.isLink = true;
+    this.refreshMaterial.bind(this)();
+  }
+
+  unMakeLink() {
+    this.state.isLink = false;
+    this.refreshMaterial.bind(this)();
+  }
+
   focus() {
-    this.material = FOCUS_MATERIAL;
+    this.state.isFocus = true;
+    this.refreshMaterial.bind(this)();
   }
 
   unfocus() {
-    this.material = MATERIAL;
+    this.state.isFocus = false;
+    this.refreshMaterial.bind(this)();
+  }
+
+  refreshMaterial() {
+    this.material = getMaterial(this.state);
   }
 }
 
