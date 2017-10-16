@@ -13,7 +13,7 @@ export const LABEL_X_OFFSET  = 50;
 export const LABEL_Y_OFFSET  = 0;
 
 
-export const getStarStyle = state => {
+export const getMaterialStyle = state => {
   if (!state.isLink) { return NOLINK; }
   else if (state.isFocus) { return LINK_FOCUS;}
   else {return LINK_NOFOCUS;}

@@ -2,7 +2,7 @@
 //Don't edit this code to change existing style properties, instead use
 //star_styling.js
 
-import {getStarStyle} from './star-styles';
+import {getMaterialStyle} from './star-styles';
 
 
 const getProgram = style => context => {
@@ -13,7 +13,7 @@ const getProgram = style => context => {
 
 const getMaterial = state => {
   Object.freeze(state);
-  const style = getStarStyle(state);
+  const style = getMaterialStyle(state);
   const color = style.color;
   const program = getProgram(style);
   const material = THREE.SpriteCanvasMaterial({
