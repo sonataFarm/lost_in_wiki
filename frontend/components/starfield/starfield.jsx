@@ -66,22 +66,27 @@ class Starfield extends React.Component {
     this.setupRenderer = ComponentModule.setupRenderer.bind(this);
     this.animate       = ComponentModule.animate.bind(this);
     this.setupControls = ComponentModule.setupControls.bind(this);
+
+    this.setState({
+      linkStars: []
+    });
   }
 
   componentDidMount() {
     this.setup();
-    // this.getUsableLinks(this.state.currentPage);
     this.generateStars();
     this.setEventListeners();
     this.animate();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.game.currentPage !== this.props.game.currentPage) {
+    if (!this.props.playing && nextProps.playing) {
+      this.getUsableLinks(this.props.currentPage);
+    } else if (nextProps.currentPage.title !== this.props.currentPage.title) {
       this.handleCurrentPageChange();
     } else if (nextProps.currentPage.usableLinks !== this.props.currentPage.usableLinks) {
       this.generateStars();
-      // this.setFocusStar(this.state.focusPage);
+      this.setFocusStar(this.state.focusPage);
     } else if (nextProps.game.focusPage !== this.props.game.focusPage) {
       this.handleFocusPageChange(nextprops.game.focusPage);
     }
@@ -225,10 +230,10 @@ class Starfield extends React.Component {
     // work out which objects the mouse is over
     var raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, this.camera);
-    var intersects = raycaster.intersectObjects( this.starfield.children );
+    var intersex = raycaster.intersectObjects( this.starfield.children );
     // Change color if particle clicked
-    if (intersects.length > 0 && intersects[0].object.material.opacity == 1) {
-      intersects[0].object.material.color.set( 0xff0000 );
+    if (intersex.length > 0 && intersex[0].object.material.opacity == 1) {
+      intersex[0].object.material.color.set( 0xff0000 );
 
       // interesting stuff starts here...
       const controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
@@ -237,7 +242,7 @@ class Starfield extends React.Component {
       vector.sub(this.camera.position);
 
       var cameraPosition = new THREE.Vector3(this.camera.position.x, this.camera.position.y, this.camera.position.z);
-      var intersectPosition = new THREE.Vector3(intersects[0].object.position.x, intersects[0].object.position.y , intersects[0].object.position.z );
+      var intersectPosition = new THREE.Vector3(intersex[0].object.position.x, intersex[0].object.position.y , intersex[0].object.position.z );
 
       var zoomPos = intersectPosition.distanceTo( cameraPosition );
 
@@ -257,7 +262,7 @@ class Starfield extends React.Component {
 
 
       var rotation_matrix = new THREE.Matrix4();
-      rotation_matrix.lookAt(this.camera, intersects[0].object.position, this.camera.up);
+      rotation_matrix.lookAt(this.camera, intersex[0].object.position, this.camera.up);
       var target_rotation = new THREE.Euler(0,0,0,"XYZ");
       target_rotation.setFromRotationMatrix(rotation_matrix);
     }
@@ -274,10 +279,10 @@ class Starfield extends React.Component {
   //   var raycaster = new THREE.Raycaster();
   //   raycaster.setFromCamera(mouse, this.camera);
   //   debugger;
-  //   var intersects = raycaster.intersectObjects( this.starfield.children );
+  //   var intersex = raycaster.intersectObjects( this.starfield.children );
   //   // Change color if particle clicked
-  //   if (intersects.length > 0 && intersects[0].object.material.opacity == 1) {
-  //     intersects[0].object.material.color.set( 0xff0000 );
+  //   if (intersex.length > 0 && intersex[0].object.material.opacity == 1) {
+  //     intersex[0].object.material.color.set( 0xff0000 );
   //
   //     // interesting stuff starts here...
   //     const controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
@@ -287,14 +292,14 @@ class Starfield extends React.Component {
   //     debugger;
   //
   //     var cameraPosition = new THREE.Vector3(this.camera.position.x, this.camera.position.y, this.camera.position.z);
-  //     var intersectPosition = new THREE.Vector3(intersects[0].object.position.x, intersects[0].object.position.y , intersects[0].object.position.z );
+  //     var intersectPosition = new THREE.Vector3(intersex[0].object.position.x, intersex[0].object.position.y , intersex[0].object.position.z );
   //
   //     var zoomPos = intersectPosition.distanceTo( cameraPosition );
   //     this.camera.position.addVectors(this.camera.position, vector.setLength(zoomPos));
   //     controls.target.addVectors(controls.target, vector.setLength(zoomPos));
   //
   //     var rotation_matrix = new THREE.Matrix4();
-  //     rotation_matrix.lookAt(this.camera, intersects[0].object.position, this.camera.up);
+  //     rotation_matrix.lookAt(this.camera, intersex[0].object.position, this.camera.up);
   //     var target_rotation = new THREE.Euler(0,0,0,"XYZ");
   //     target_rotation.setFromRotationMatrix(rotation_matrix);
   //   }
@@ -316,6 +321,18 @@ class Starfield extends React.Component {
   }
 
   generateStars = () => {
+    for (let i = this.state.linkStars.length; i < NUM_STARS; i++) {
+      let star = new Star();
+      star.assignRandomCoords(STAR_BOUNDARIES);
+      this.addStar(star);
+      this.geometry.vertices.push(star.position);
+    }
+    // !!! testing
+    this.addTestStar();
+    // !!! end
+  }
+
+  generateLinkStars() {
     const linkStars = this.props.links.map(
       link => new LinkStar(link, this.camera)
     );
@@ -327,17 +344,6 @@ class Starfield extends React.Component {
       linkStar.createLabel();
       this.starfield.add(linkStar.label);
     });
-
-    for (let i = linkStars.length; i < NUM_STARS; i++) {
-      let star = new Star();
-      star.assignRandomCoords(STAR_BOUNDARIES);
-      this.addStar(star);
-      this.geometry.vertices.push(star.position);
-    }
-
-    // !!! testing
-    this.addTestStar();
-    // !!! end
 
     this.setState(
       { linkStars }

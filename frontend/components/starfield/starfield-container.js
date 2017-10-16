@@ -9,7 +9,8 @@ import StarField from './starfield';
 const mapStateToProps = state => ({
   pages: state.pages,
   currentPage: state.pages[state.game.currentPage],
-  focusPage: state.pages[state.game.focusPage]
+  focusPage: state.pages[state.game.focusPage],
+  playing: state.game.playing
 });
 
 const mapDispatchToProps = dispatch => ({

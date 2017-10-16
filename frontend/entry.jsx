@@ -5,7 +5,11 @@ import {configureStore} from './store/store';
 import {fetchPage} from './util/backend/backend-api-util';
 import {Provider} from 'react-redux';
 document.addEventListener('DOMContentLoaded', () => {
-  let store = configureStore({});
+  let preloadedState = {
+    pages: {}
+  };
+
+  let store = configureStore(preloadedState);
   window.store = store;
   const root = document.getElementById('root');
   ReactDOM.render(

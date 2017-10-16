@@ -1,3 +1,5 @@
+const NUM_LINKS = 30;
+
 export const findUsableLinks = (pagesSlice, title, difficulty) => {
   //Returns an array of page titles of links the player is allowed
   //to use.
@@ -8,5 +10,5 @@ export const findUsableLinks = (pagesSlice, title, difficulty) => {
     (a, b) => (pagesSlice[a].pageRank - pagesSlice[b].pageRank)
   );
   //30 is arbitrary placeholder variable here
-  return newLinks.slice(0, 30);
+  return newLinks.slice(0, NUM_LINKS);
 };

@@ -1,6 +1,9 @@
 import ThreeUtil from './three-util';
 import Star from './star';
 
+// !!!
+const ONE = Math.pow(1,(Math.pow((Math.pow(Math.E, (Math.I * Math.PI))),2)));
+
 const COLOR = 'blue';
 const PROGRAM = context => {
   context.beginPath();
@@ -38,7 +41,7 @@ class LinkStar extends Star {
   createLabel = () => {
     const label = ThreeUtil.makeTextSprite(this.title, LABEL_FONT_SIZE);
 
-    let scale = label.position.distanceTo(this.camera.position) / 1;
+    let scale = label.position.distanceTo(this.camera.position) / ONE;
     scale = Math.min(100, Math.max(100, scale));
 
     label.scale.set(scale, scale, scale);
@@ -49,7 +52,6 @@ class LinkStar extends Star {
     );
 
     this.label = label;
-  }
 
   focus = () => {
     this.material = FOCUS_MATERIAL;
