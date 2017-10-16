@@ -1,43 +1,24 @@
 import _ from 'lodash';
 
-const COLOR = 'white';
-
-const PROGRAM = context => {
-  context.beginPath();
-  context.arc(0, 0, 0.5, 0, Math.PI * 2, false);
-  context.fill();
-};
-
-const FOCUS_COLOR = 'red';
+import { getMaterial } from './get-material';
 
 const LABEL_FONT_SIZE = 18;
 const LABEL_X_OFFSET  = 50;
 const LABEL_Y_OFFSET  = 0;
 
-const MATERIAL = new THREE.SpriteCanvasMaterial({
-    color: new THREE.Color(COLOR),
-    program: PROGRAM
-});
 
 class Star extends THREE.Sprite {
-  constructor(material, options) {
-
-    super(material);
-
+  constructor(options) {
+    this.state = {
+      isLink: options.isLink,
+      isFocus: options.isFocus
+    };
+    this.material = getMaterial(this.state);
+    super(this.material);
   }
 
   material(color) {
 
-  }
-
-  getProgram(radius) {
-    //Returns a program for Three.SpriteCanvasMaterial, i.e takes a context
-    const program = context => {
-      context.beginPath();
-      context.arc(0, 0, radius, 0, Math.PI * 2, false);
-      context.fill();
-    };
-    return program;
   }
 
   assignRandomCoords(boundaries) {
