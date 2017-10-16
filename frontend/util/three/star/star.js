@@ -2,10 +2,11 @@ import _ from 'lodash';
 
 import getMaterial from './get-material';
 
-const LABEL_FONT_SIZE = 18;
-const LABEL_X_OFFSET  = 50;
-const LABEL_Y_OFFSET  = 0;
-
+import {
+  LABEL_FONT_SIZE,
+  LABEL_X_OFFSET,
+  LABEL_Y_OFFSET
+} from './star-style.js';
 
 //Handles the rendering logic for stars
 //Note that color and radius properties are handled by getMaterial

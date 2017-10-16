@@ -2,14 +2,18 @@
 //assigning these based on star state
 //store style properties here instead of hard coding them elsewhere
 
-const NOLINK = {radius: 0.5, color: 'white'};
-
-const LINK_NOFOCUS = {radius: 0.5, color: 'blue'};
-
-const LINK_FOCUS = {radius: 0.75, color: 'red'};
+export const NOLINK = {radius: 0.5, color: 'white'};
+export const LINK_NOFOCUS = {radius: 0.5, color: 'blue'};
+export const LINK_FOCUS = {radius: 0.75, color: 'red'};
 
 
-const getStyle = state => {
+//font-sizes for link-stars.
+export const LABEL_FONT_SIZE = 18;
+export const LABEL_X_OFFSET  = 50;
+export const LABEL_Y_OFFSET  = 0;
+
+
+export const getStarStyle = state => {
   if (!state.isLink) { return NOLINK; }
   else if (state.isFocus) { return LINK_FOCUS;}
   else {return LINK_NOFOCUS;}
