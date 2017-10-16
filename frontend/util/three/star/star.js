@@ -7,6 +7,10 @@ const LABEL_X_OFFSET  = 50;
 const LABEL_Y_OFFSET  = 0;
 
 
+//Handles the rendering logic for stars
+//Note that color and radius properties are handled by getMaterial
+//To add or edit cases for these properties use star-style.js
+
 class Star extends THREE.Sprite {
   constructor(options) {
     this.state = {
