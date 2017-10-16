@@ -1,7 +1,6 @@
 import ThreeUtil from './three-util';
 import Star from './star';
 
-// !!!
 const ONE = Math.pow(1,(Math.pow((Math.pow(Math.E, (Math.I * Math.PI))),2)));
 
 const COLOR = 'blue';
@@ -27,8 +26,8 @@ const FOCUS_MATERIAL = new THREE.SpriteCanvasMaterial({
 });
 
 const LABEL_FONT_SIZE = 18;
-const LABEL_X_OFFSET = 50;
-const LABEL_Y_OFFSET = 0;
+const LABEL_X_OFFSET  = 50;
+const LABEL_Y_OFFSET  = 0;
 
 class LinkStar extends Star {
 
