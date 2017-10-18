@@ -16,7 +16,9 @@ class Star extends THREE.Sprite {
   constructor(options) {
     this.state = {
       isLink: options.isLink,
-      isFocus: options.isFocus
+      isFocus: options.isFocus,
+      title: options.title,
+      camera: options.camera
     };
     this.material = getMaterial(this.state);
     super(this.material);
