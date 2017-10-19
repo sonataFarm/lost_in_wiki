@@ -2,7 +2,8 @@ import merge from 'lodash/merge';
 import {
   UPDATE_CURRENT_PAGE,
   UPDATE_FOCUS_PAGE,
-  START_NEW_GAME
+  START_NEW_GAME,
+  FINISH_GAME
 } from '../actions/game-actions.js';
 
 export const gameReducer = (gameSlice = {}, action) => {
@@ -30,6 +31,12 @@ export const gameReducer = (gameSlice = {}, action) => {
     case UPDATE_FOCUS_PAGE:
       newSlice = merge({}, gameSlice);
       newSlice.focusPage = action.pageTitle;
+      return newSlice;
+
+    case FINISH_GAME:
+      newSlice = merge({}, gameSlice);
+      newSlice.won = true;
+      newSlice.playing = false;
       return newSlice;
 
     default:

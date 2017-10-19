@@ -1,8 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import ComponentModule from '../../util/three/three-component-module.js';
-import Star from '../../util/three/star';
-import LinkStar from '../../util/three/link-star';
+import Star from '../../util/three/star/star';
 
 const NUM_STARS = 500;
 const STARFIELD_RADIUS = 2000;
@@ -68,7 +67,7 @@ class Starfield extends React.Component {
     this.setupControls = ComponentModule.setupControls.bind(this);
 
     this.setState({
-      linkStars: []
+      stars: []
     });
   }
 
@@ -190,7 +189,7 @@ class Starfield extends React.Component {
   }
 
   generateStars = () => {
-    for (let i = this.state.linkStars.length; i < NUM_STARS; i++) {
+    for (let i = this.state.stars.length; i < NUM_STARS; i++) {
       let star = new Star();
       star.assignRandomCoords(STAR_BOUNDARIES);
       this.addStar(star);
@@ -202,8 +201,12 @@ class Starfield extends React.Component {
   }
 
   generateLinkStars() {
-    const linkStars = this.props.links.map(
-      link => new LinkStar(link, this.camera)
+    const linkStars = this.props.currentPage.links.map(
+      link => new Star({
+        isLink: true,
+        isFocus: false,
+        title: link,
+      })
     );
 
     linkStars.forEach(linkStar => {
@@ -211,7 +214,7 @@ class Starfield extends React.Component {
       this.addStar(linkStar);
 
       linkStar.createLabel();
-      this.starfield.add(linkStar.label);
+      this.starfield.add(linkStar.title);
     });
 
     this.setState(
