@@ -2,7 +2,7 @@
 //Don't edit this code to change existing style properties, instead use
 //star_styling.js
 
-import {getMaterialStyle} from './star-styles';
+import {getMaterialStyle} from './star-style';
 
 
 const getProgram = style => context => {
