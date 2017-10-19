@@ -14,6 +14,8 @@ import {
 
 class Star extends THREE.Sprite {
   constructor(options) {
+    super(options);
+
     this.state = {
       isLink: options.isLink,
       isFocus: options.isFocus,
