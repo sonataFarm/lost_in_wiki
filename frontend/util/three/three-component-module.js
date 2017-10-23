@@ -7,12 +7,14 @@ const measureWindow = function() {
   this.windowHalfHeight = window.innerHeight / 2;
 };
 
-const setupCamera = function(fov, near, far, z) {
+const setupCamera = function(fov, near, far, position) {
   this.camera = new THREE.PerspectiveCamera(
     fov, this.windowWidth / this.windowHeight,
     near, far
   );
-  this.camera.position.z = z;
+  this.camera.position.x = position.x;
+  this.camera.position.y = position.y;
+  this.camera.position.z = position.z;
 };
 
 const setupRenderer = function({ divID }) {
