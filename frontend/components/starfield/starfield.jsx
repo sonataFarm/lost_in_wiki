@@ -45,7 +45,10 @@ const LINKSTAR_BOUNDARIES = _.mapValues(STAR_BOUNDARIES, coord => (
 const CAMERA_FOV = 50;
 const CAMERA_NEAR = 25;
 const CAMERA_FAR = 10000;
-const CAMERA_INITIAL_Z = 1000;
+const CAMERA_INITIAL_X = 0;
+const CAMERA_INITIAL_Y = 0;
+const CAMERA_INITIAL_Z = 0;
+const CAMERA_POSITION = new THREE.Vector3(CAMERA_INITIAL_X, CAMERA_INITIAL_Y, CAMERA_INITIAL_Z);
 
 // styling
 const LINE_COLOR = 'white';
@@ -114,8 +117,9 @@ class Starfield extends React.Component {
     this.setupMouse();
     this.measureWindow();
     this.setupCamera(
-      CAMERA_FOV, CAMERA_NEAR, CAMERA_FAR, CAMERA_INITIAL_Z
+      CAMERA_FOV, CAMERA_NEAR, CAMERA_FAR, CAMERA_POSITION
     );
+    console.log(this.camera.position);
     this.setupScene();
     this.setupRenderer({ divID: 'starfield' });
     this.setupControls();
@@ -301,9 +305,9 @@ class Starfield extends React.Component {
     onDocumentMouseDown = (event) => {
       // attempt to integrate tweening into marlene's camera movement
       // get mouse coords
-      var mouse = new THREE.Vector2();
-      mouse.x = (event.clientX / this.windowWidth) * 2 - 1;
-      mouse.y = -(event.clientY / this.windowHeight) * 2 + 1;
+      // var mouse = new THREE.Vector2();
+      // mouse.x = (event.clientX / this.windowWidth) * 2 - 1;
+      // mouse.y = -(event.clientY / this.windowHeight) * 2 + 1;
 
       // work out which objects the mouse is over
       var raycaster = new THREE.Raycaster();
@@ -314,35 +318,44 @@ class Starfield extends React.Component {
         intersects[0].object.material.color.set( 0xff0000 );
 
         // interesting stuff starts here...
-        const controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
-        var vector = new THREE.Vector3(mouse.x, mouse.y, -1 );
-        vector.unproject(this.camera);
-        vector.sub(this.camera.position);
+        // const controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
+        // var vector = new THREE.Vector3(mouse.x, mouse.y, -1 );
+        // vector.unproject(this.camera);
+        // vector.sub(this.camera.position);
 
-        var cameraPosition = new THREE.Vector3(this.camera.position.x, this.camera.position.y, this.camera.position.z);
+        // var cameraPosition = new THREE.Vector3(this.camera.position.x, this.camera.position.y, this.camera.position.z);
         var intersectPosition = new THREE.Vector3(intersects[0].object.position.x, intersects[0].object.position.y , intersects[0].object.position.z );
 
-        var zoomPos = intersectPosition.distanceTo( cameraPosition );
+        // var zoomPos = intersectPosition.distanceTo( cameraPosition );
 
-        const newCameraPosition = cameraPosition.addVectors(this.camera.position, vector.setLength(zoomPos));
+        // const newCameraPosition = cameraPosition.addVectors(this.camera.position, vector.setLength(zoomPos));
+
+        console.log(this.camera.position);
+        console.log(intersectPosition);
+
         const tweenCamera = new TWEEN.Tween(this.camera.position)
-          .to(newCameraPosition)
+          .to({x: 100, y: 100, z: 100})
           .easing(TWEEN.Easing.Linear.None)
           .start();
 
-        const controlsTargetVector = new THREE.Vector3(controls.target);
-        const newControlsTarget = controlsTargetVector.addVectors(controls.target, vector.setLength(zoomPos));
+        // const tweenCamera = new TWEEN.Tween(this.camera.position)
+        //   .to(this.camera.lookAt(intersectPosition))
+        //   .easing(TWEEN.Easing.Linear.None)
+        //   .start();
 
-        const tweenControls = new TWEEN.Tween(this.controls.target)
-          .to(newControlsTarget)
-          .easing(TWEEN.Easing.Linear.None)
-          .start();
+        // const controlsTargetVector = new THREE.Vector3(controls.target);
+        // const newControlsTarget = controlsTargetVector.addVectors(controls.target, vector.setLength(zoomPos));
+
+        // const tweenControls = new TWEEN.Tween(this.controls.target)
+        //   .to(newControlsTarget)
+        //   .easing(TWEEN.Easing.Linear.None)
+        //   .start();
 
 
-        var rotation_matrix = new THREE.Matrix4();
-        rotation_matrix.lookAt(this.camera, intersects[0].object.position, this.camera.up);
-        var target_rotation = new THREE.Euler(0,0,0,"XYZ");
-        target_rotation.setFromRotationMatrix(rotation_matrix);
+        // var rotation_matrix = new THREE.Matrix4();
+        // rotation_matrix.lookAt(this.camera, intersects[0].object.position, this.camera.up);
+        // var target_rotation = new THREE.Euler(0,0,0,"XYZ");
+        // target_rotation.setFromRotationMatrix(rotation_matrix);
       }
     }
 
