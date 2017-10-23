@@ -66,9 +66,9 @@ class Starfield extends React.Component {
     this.animate       = ComponentModule.animate.bind(this);
     this.setupControls = ComponentModule.setupControls.bind(this);
 
-    this.setState({
+    this.state = {
       stars: []
-    });
+    };
   }
 
   componentDidMount() {
@@ -189,6 +189,10 @@ class Starfield extends React.Component {
   }
 
   generateStars = () => {
+    const regularStarOptions = {
+      isLink: false,
+
+    }
     for (let i = this.state.stars.length; i < NUM_STARS; i++) {
       let star = new Star();
       star.assignRandomCoords(STAR_BOUNDARIES);
