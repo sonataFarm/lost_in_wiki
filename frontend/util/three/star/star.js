@@ -1,5 +1,5 @@
 import _ from 'lodash';
-
+import ThreeUtil from '../three-util';
 import generateMaterial from './generate-material';
 
 import {
@@ -8,9 +8,9 @@ import {
   LABEL_Y_OFFSET
 } from './star-style.js';
 
-//Handles the rendering logic for stars
-//Note that color and radius properties are handled by generateMaterial
-//To add or edit cases for these properties use star-style.js
+// Handles the rendering logic for stars
+// Note that color and radius properties are handled by generateMaterial
+// To add or edit cases for these properties use star-style.js
 
 class Star extends THREE.Sprite {
   constructor(camera, options) {
@@ -18,7 +18,6 @@ class Star extends THREE.Sprite {
     const defaultOptions = {
       isLink: false,
       isFocus: false,
-      title: null,
     };
 
     const state = { ...defaultOptions, ...options };
@@ -41,7 +40,7 @@ class Star extends THREE.Sprite {
   }
 
   createLabel() {
-    const label = ThreeUtil.makeTextSprite(this.title, LABEL_FONT_SIZE);
+    const label = ThreeUtil.makeTextSprite(this.state.title, LABEL_FONT_SIZE);
 
     let scale = label.position.distanceTo(this.camera.position);
     scale = Math.min(100, Math.max(100, scale));

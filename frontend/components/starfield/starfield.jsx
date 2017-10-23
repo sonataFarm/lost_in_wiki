@@ -74,6 +74,7 @@ class Starfield extends React.Component {
   componentDidMount() {
     this.setup();
     this.generateStars();
+    this.generateLinkStars();
     this.setEventListeners();
     this.animate();
   }
@@ -189,12 +190,8 @@ class Starfield extends React.Component {
   }
 
   generateStars = () => {
-    const regularStarOptions = {
-      isLink: false,
-
-    }
     for (let i = this.state.stars.length; i < NUM_STARS; i++) {
-      let star = new Star();
+      let star = new Star(this.camera);
       star.assignRandomCoords(STAR_BOUNDARIES);
       this.addStar(star);
       this.geometry.vertices.push(star.position);
@@ -205,8 +202,9 @@ class Starfield extends React.Component {
   }
 
   generateLinkStars() {
+    debugger;
     const linkStars = this.props.currentPage.links.map(
-      link => new Star({
+      link => new Star(this.camera, {
         isLink: true,
         isFocus: false,
         title: link,
@@ -218,7 +216,7 @@ class Starfield extends React.Component {
       this.addStar(linkStar);
 
       linkStar.createLabel();
-      this.starfield.add(linkStar.title);
+      this.starfield.add(linkStar.label);
     });
 
     this.setState(
