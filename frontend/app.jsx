@@ -10,7 +10,7 @@ import hitlerLinks from './util/hitler-links';
 
 const App = props => (
   <Switch>
-    <Route exact path='/dev/starfield' render={ () => <Starfield links={ _.shuffle(hitlerLinks).slice(0, 30) } /> }/>
+    <Route exact path='/dev/starfield' render={ () => <Starfield currentPage={ { links: _.shuffle(hitlerLinks).slice(0, 30) } } /> }/>
     <Route exact path='/dev/starfield-container' render={ () => <StarfieldContainer /> } />
     <Route       path='/' render={ () => "Route does not exist - see valid routes in frontend/app.jsx" }/>
   </Switch>
