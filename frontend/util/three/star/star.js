@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import getMaterial from './get-material';
+import generateMaterial from './generate-material';
 
 import {
   LABEL_FONT_SIZE,
@@ -9,21 +9,26 @@ import {
 } from './star-style.js';
 
 //Handles the rendering logic for stars
-//Note that color and radius properties are handled by getMaterial
+//Note that color and radius properties are handled by generateMaterial
 //To add or edit cases for these properties use star-style.js
 
 class Star extends THREE.Sprite {
-  constructor(options) {
-    super(options);
+  constructor(camera, options) {
 
-    this.state = {
-      isLink: options.isLink,
-      isFocus: options.isFocus,
-      title: options.title,
-      camera: options.camera
+    const defaultOptions = {
+      isLink: false,
+      isFocus: false,
+      title: null,
     };
-    this.material = getMaterial(this.state);
-    super(this.material);
+
+    const state = { ...defaultOptions, ...options };
+    const material = generateMaterial(state);
+
+    super(material);
+
+    this.state = state;
+    this.material = material;
+    this.camera = camera;
   }
 
   assignRandomCoords(boundaries) {
@@ -53,26 +58,26 @@ class Star extends THREE.Sprite {
 
   makeLink() {
     this.state.isLink = true;
-    this.refreshMaterial.bind(this)();
+    this.refreshMaterial();
   }
 
   unmakeLink() {
     this.state.isLink = false;
-    this.refreshMaterial.bind(this)();
+    this.refreshMaterial();
   }
 
   focus() {
     this.state.isFocus = true;
-    this.refreshMaterial.bind(this)();
+    this.refreshMaterial();
   }
 
   unfocus() {
     this.state.isFocus = false;
-    this.refreshMaterial.bind(this)();
+    this.refreshMaterial();
   }
 
   refreshMaterial() {
-    this.material = getMaterial(this.state);
+    this.material = generateMaterial(this.state);
   }
 }
 
